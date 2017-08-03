@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2017. by MangoPlanet All Pictures cannot be copied without permission.
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <environments default="mysql_local">
+
+        <environment id="mysql_local">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${mysql.driver}"/>
+                <property name="url" value="${mysql.local.url}"/>
+                <property name="username" value="${mysql.local.username}"/>
+                <property name="password" value="${mysql.local.password}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="mysql_test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${mysql.driver}"/>
+                <property name="url" value="${mysql.test.url}"/>
+                <property name="username" value="${mysql.test.username}"/>
+                <property name="password" value="${mysql.test.password}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="mysql_stylefit">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${mysql.driver}"/>
+                <property name="url" value="${mysql.stlyefit.url}"/>
+                <property name="username" value="${mysql.stlyefit.username}"/>
+                <property name="password" value="${mysql.stlyefit.password}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="mysql_otjalnam">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${mysql.driver}"/>
+                <property name="url" value="${mysql.otjalnam.url}"/>
+                <property name="username" value="${mysql.otjalnam.username}"/>
+                <property name="password" value="${mysql.otjalnam.password}"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+
+    <mappers>
+        <mapper resource="com/enliple/crawler/common/sql/Parse-Mapper.xml"/>
+        <mapper resource="com/enliple/crawler/common/sql/Task-Mapper.xml"/>
+        <mapper resource="com/enliple/crawler/common/sql/testMapper.xml"/>
+    </mappers>
+
+</configuration>

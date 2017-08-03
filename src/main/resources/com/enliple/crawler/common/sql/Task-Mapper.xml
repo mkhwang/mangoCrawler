@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2017. by MangoPlanet All Pictures cannot be copied without permission.
+  -->
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="job">
+    <select id="selectParseJob" resultType="com.enliple.crawler.job.domain.ParseJob">
+      SELECT
+          sc_code AS scCode,
+          state,
+          regdate as regDate
+      FROM ms_parsing_queue
+        WHERE state IN ('0', '1', '2')
+        ORDER BY no ASC
+    </select>
+
+    <update id="updateParseJob" parameterType="com.enliple.crawler.job.domain.ParseJob">
+      UPDATE ms_parsing_queue
+        SET state = #{state} WHERE sc_code = #{scCode}
+    </update>
+
+    <delete id="deleteParseJob" parameterType="com.enliple.crawler.job.domain.ParseJob">
+        DELETE FROM ms_parsing_queue
+          WHERE sc_code = #{scCode} AND state = '2'
+    </delete>
+</mapper>
