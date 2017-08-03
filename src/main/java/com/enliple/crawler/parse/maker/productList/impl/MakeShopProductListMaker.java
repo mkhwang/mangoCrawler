@@ -1,6 +1,6 @@
 package com.enliple.crawler.parse.maker.productList.impl;
 
-import com.enliple.crawler.common.util.JsoupUtil;
+import com.enliple.crawler.common.util.JSoupUtil;
 import com.enliple.crawler.parse.maker.productList.ProductListMaker;
 import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
@@ -21,7 +21,7 @@ public class MakeShopProductListMaker implements ProductListMaker{
         JSONObject page = (JSONObject) pageData;
         String productString = page.get("html").toString();
         Document productListHtml= Jsoup.parse(productString);
-        Elements tempProductList = JsoupUtil.getElements(productListHtml, productListPattern);
+        Elements tempProductList = JSoupUtil.getElements(productListHtml, productListPattern);
         if(tempProductList.size() <= 0)
             throw new NullPointerException();
 

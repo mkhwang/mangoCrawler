@@ -8,8 +8,8 @@ import org.jsoup.Jsoup;
 /**
  * Created by MinKi Hwang on 2017-08-02.
  */
-public class JsoupConnection implements PageConnection {
-    private Logger logger = Logger.getLogger(JsoupConnection.class);
+public class JSoupConnection implements PageConnection {
+    private Logger logger = Logger.getLogger(JSoupConnection.class);
 
     @Override
     public Object getPageData(String url) throws Exception {

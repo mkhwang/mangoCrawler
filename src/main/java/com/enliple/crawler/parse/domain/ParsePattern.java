@@ -1,7 +1,7 @@
 package com.enliple.crawler.parse.domain;
 
 import com.enliple.crawler.parse.connect.PageConnection;
-import com.enliple.crawler.parse.connect.impl.JsoupConnection;
+import com.enliple.crawler.parse.connect.impl.JSoupConnection;
 import com.enliple.crawler.parse.connect.impl.UrlStreamConnect;
 
 /**
@@ -149,7 +149,7 @@ public class ParsePattern {
         if(shopType.toLowerCase().equals("cafe24") || shopType.toLowerCase().equals("makeshop"))
             pageConnection = new UrlStreamConnect();
         else
-            pageConnection = new JsoupConnection();
+            pageConnection = new JSoupConnection();
     }
 
     public Object getPageData(String url) throws Exception {

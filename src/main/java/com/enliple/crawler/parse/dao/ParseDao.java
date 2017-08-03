@@ -20,4 +20,6 @@ public interface ParseDao {
     void updateShopParseDate(String scCode, SqlSession session);
     List<ParsingInfo> getParsingInfoList(String scCode, SqlSession session);
     Product getProduct(Product product, SqlSession session);
+    void updateNoRenewalProduct(String scCode, SqlSession session);
+    void updateParsingDate(String scCode, SqlSession session);
 }

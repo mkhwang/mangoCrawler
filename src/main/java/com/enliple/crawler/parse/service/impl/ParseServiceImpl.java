@@ -50,6 +50,7 @@ public class ParseServiceImpl implements ParseService{
                 e.printStackTrace();
             }
         }
+        this.updateRenewalProductAndParsingDate(parseTask);
     }
 
     private void parseCategory(ParsingInfo parsingInfo, ParsePattern parsePattern) throws Exception{
@@ -59,6 +60,7 @@ public class ParseServiceImpl implements ParseService{
                 parsePage(parsingInfo, parsePattern, url);
             } catch(NullPointerException e){
                 logger.debug(e.getMessage());
+                break;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -216,6 +218,21 @@ public class ParseServiceImpl implements ParseService{
             closeSession(session);
         }
         return parsePattern;
+    }
+
+    private void updateRenewalProductAndParsingDate(ParseTask parseTask){
+        SqlSession session = null;
+        try {
+            session = SessionFactory.getSession();
+            parseDao.updateNoRenewalProduct(parseTask.getScCode(), session);
+            parseDao.updateParsingDate(parseTask.getScCode(), session);
+            session.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.rollback();
+        } finally {
+            closeSession(session);
+        }
     }
 
     private void closeSession(SqlSession session){

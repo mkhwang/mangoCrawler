@@ -51,4 +51,14 @@ public class ParseDaoImpl implements ParseDao {
     public Product getProduct(Product product, SqlSession session) {
         return null;
     }
+
+    @Override
+    public void updateNoRenewalProduct(String scCode, SqlSession session) {
+
+    }
+
+    @Override
+    public void updateParsingDate(String scCode, SqlSession session) {
+
+    }
 }

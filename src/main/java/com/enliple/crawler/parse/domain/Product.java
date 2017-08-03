@@ -173,4 +173,8 @@ public class Product {
             this.orgPrice = 0L;
         }
     }
+
+    public void calculateSetDcRate(){
+
+    }
 }
