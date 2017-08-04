@@ -7,24 +7,25 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="job">
-    <select id="selectParseJob" resultType="com.enliple.crawler.job.domain.ParseJob">
+<mapper namespace="task">
+    <select id="selectParseTask" resultType="com.enliple.crawler.task.domain.ParseTask">
       SELECT
-          sc_code AS scCode,
-          state,
-          regdate as regDate
-      FROM ms_parsing_queue
-        WHERE state IN ('0', '1', '2')
-        ORDER BY no ASC
+        sc_code AS scCode,
+        state
+        FROM ms_parsing_queue
+      WHERE state = '0'
+      ORDER BY priority ASC
     </select>
 
-    <update id="updateParseJob" parameterType="com.enliple.crawler.job.domain.ParseJob">
-      UPDATE ms_parsing_queue
-        SET state = #{state} WHERE sc_code = #{scCode}
+    <update id="updateParseTask" parameterType="com.enliple.crawler.task.domain.ParseTask">
+        UPDATE ms_parsing_queue SET state = #{state} WHERE sc_code = #{scCode}
     </update>
 
-    <delete id="deleteParseJob" parameterType="com.enliple.crawler.job.domain.ParseJob">
-        DELETE FROM ms_parsing_queue
-          WHERE sc_code = #{scCode} AND state = '2'
+    <delete id="deleteParseTask" parameterType="com.enliple.crawler.task.domain.ParseTask">
+        DELETE FROM ms_parsing_queue WHERE sc_code = #{scCode}
     </delete>
+
+    <select id="getCurrentWorkingTaskCount" resultType="String">
+      SELECT count(1) FROM ms_parsing_queue WHERE state IN ('1', '3')
+    </select>
 </mapper>

@@ -5,7 +5,6 @@ import com.enliple.crawler.parse.maker.productList.ProductListMaker;
 import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -26,10 +25,12 @@ public class MakeShopProductListMaker implements ProductListMaker{
             throw new NullPointerException();
 
         List<Object> productList = new ArrayList<>();
+        productList.addAll(tempProductList);
+        /*
         for(Element tempProduct : tempProductList){
             productList.add(tempProduct);
         }
-
+         */
         return productList;
     }
 }

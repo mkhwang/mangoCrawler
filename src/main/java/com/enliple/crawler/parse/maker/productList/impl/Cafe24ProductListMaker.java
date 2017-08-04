@@ -14,8 +14,9 @@ public class Cafe24ProductListMaker implements ProductListMaker{
     private Logger logger = Logger.getLogger(Cafe24ProductListMaker.class);
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Object> getProductList(Object pageData, String productListPattern) throws NullPointerException{
-        List<Object> productList = null;
+        List<Object> productList;
         JSONObject page = (JSONObject) pageData;
         page = (JSONObject) page.get("rtn_data");
         if(page.get("data") != null)

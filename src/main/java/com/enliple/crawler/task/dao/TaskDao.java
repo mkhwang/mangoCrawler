@@ -8,16 +8,12 @@ import java.util.List;
 /**
  * Created by MinKi Hwang on 2017-08-01.
  */
-public class TaskDao {
-    public List<ParseTask> selectParseJob(SqlSession session){
-        return session.selectList("job.selectParseJob");
-    }
+public interface TaskDao {
+    List<ParseTask> selectParseTask(SqlSession session);
 
-    public void updateParseJob(ParseTask parseTask, SqlSession session){
-        session.update("job.updateParseJob", parseTask);
-    }
+    void updateParseTask(ParseTask parseTask, SqlSession session);
 
-    public void deleteParseJob(ParseTask parseTask, SqlSession session){
-        session.delete("job.deleteParseJob", parseTask);
-    }
+    void deleteParseTask(ParseTask parseTask, SqlSession session);
+
+    String getCurrentWorkingTaskCount(SqlSession session);
 }

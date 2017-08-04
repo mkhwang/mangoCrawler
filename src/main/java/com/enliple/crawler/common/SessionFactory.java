@@ -20,14 +20,13 @@ public class SessionFactory {
     private static SqlSessionFactory factory = null;
 
     static {
-        LoadProperties lp = new LoadProperties();
         Properties props = new Properties();
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream(lp.getDbProps());
+            fis = new FileInputStream(LoadProperties.getDbProps());
             props.load(fis);
             SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-            factory = builder.build(Resources.getResourceAsReader(lp.getDbConfig()), lp.getSchema(), props);
+            factory = builder.build(Resources.getResourceAsReader(LoadProperties.getDbConfig()), LoadProperties.getSchema(), props);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

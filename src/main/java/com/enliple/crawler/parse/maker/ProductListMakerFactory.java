@@ -11,7 +11,7 @@ import com.enliple.crawler.parse.maker.productList.impl.MakeShopProductListMaker
  */
 public class ProductListMakerFactory {
     public static ProductListMaker getProductListMaker(ParsePattern parsePattern){
-        ProductListMaker maker = null;
+        ProductListMaker maker;
         if("cafe24".equals(parsePattern.getShopType()))
             maker = new Cafe24ProductListMaker();
         else if("makeShop".equals(parsePattern.getShopType()))

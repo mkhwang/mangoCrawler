@@ -1,7 +1,5 @@
 package com.enliple.crawler.parse.domain;
 
-import com.enliple.crawler.parse.connect.PageConnection;
-
 /**
  * Created by MinKi Hwang on 2017-08-01.
  */

@@ -8,15 +8,15 @@ import java.util.Properties;
  * Created by mkhwang on 2017-06-26.
  */
 public class LoadProperties {
-    private FileInputStream fileInputStream = null;
-    private Properties properties = null;
+    private static FileInputStream fileInputStream = null;
+    private static Properties properties = null;
 
     /**
      * Instantiates a new Load properties.
      */
-    public LoadProperties() {
+    static {
         try {
-            File conf = new File(System.getProperty("user.dir")+"/mangoCrawler/conf/parser.properties");
+            File conf = new File(System.getProperty("user.dir")+"/conf/parser.properties");
             fileInputStream = new FileInputStream(conf);
             properties = new Properties();
             properties.load(fileInputStream);
@@ -32,8 +32,7 @@ public class LoadProperties {
      *
      * @return the string
      */
-    public String getDbConfig(){
-        System.out.println(properties.getProperty("dbconfig"));
+    public static String getDbConfig(){
         return properties.getProperty("dbconfig");
     }
 
@@ -42,8 +41,7 @@ public class LoadProperties {
      *
      * @return the string
      */
-    public String getDbProps(){
-        System.out.println(properties.getProperty("dbprops"));
+    public static String getDbProps(){
         return properties.getProperty("dbprops");
     }
 
@@ -52,14 +50,14 @@ public class LoadProperties {
      *
      * @return the schema
      */
-    public String getSchema() { return properties.getProperty("schema"); }
+    public static String getSchema() { return properties.getProperty("schema"); }
 
     /**
      * Get max thread count int.
      *
      * @return the int
      */
-    public int getMaxThreadCount(){
+    public static int getMaxThreadCount(){
         return Integer.parseInt(properties.getProperty("maxThreadCount"));
     }
 
@@ -68,18 +66,15 @@ public class LoadProperties {
      *
      * @return the job search period
      */
-    public int getJobSearchPeriod() {
+    public static int getJobSearchPeriod() {
         return Integer.parseInt(properties.getProperty("jobSearchPeriod"));
     }
 
-    public int getGlobalTimeout(){
+    public static int getGlobalTimeout(){
         return Integer.parseInt(properties.getProperty("globalTimeout"));
     }
 
-    public boolean getGlobalColorParseFlag(){
-        if("true".equals(properties.getProperty("globalColorParse")))
-            return true;
-        else
-            return false;
+    public static int getMaxWaitTask() {
+        return Integer.parseInt(properties.getProperty("maxWaitTask"));
     }
 }

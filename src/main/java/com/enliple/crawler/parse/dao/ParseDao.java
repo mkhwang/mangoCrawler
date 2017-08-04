@@ -3,7 +3,6 @@ package com.enliple.crawler.parse.dao;
 import com.enliple.crawler.parse.domain.ParsePattern;
 import com.enliple.crawler.parse.domain.ParsingInfo;
 import com.enliple.crawler.parse.domain.Product;
-import com.mysql.jdbc.PreparedStatement;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;

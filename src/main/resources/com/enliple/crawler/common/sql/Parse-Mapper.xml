@@ -8,91 +8,149 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="parse">
-    <select id="selectParsingInfoList" parameterType="com.enliple.crawler.job.domain.ParseJob" resultType="com.enliple.crawler.parse.domain.ParsingInfo">
-        SELECT
-          category_code       AS categoryCode,
-          category_match_code AS categoryMatchCode
-        FROM ms_parsing_info
-        WHERE shop_no = #{scCode}
-    </select>
-
-    <select id="selectParsePattern" parameterType="com.enliple.crawler.job.domain.ParseJob" resultType="com.enliple.crawler.parse.domain.ParsePattern">
-        SELECT
-           shop_type as shopType
-         , productlist_pattern as productListPattern
-         , title_pattern as titlePattern
-         , url_pattern as urlPattern
-         , img_url_pattern as umgUrlPattern
-         , price_pattern as pricePattern
-         , orgprice_pattern as orgPricePattern
-         , sale_check_pattern as saleCheckPattern
-         , page_pattern as pagePattern
-         , sc_code as scCode
-         , filterstring as filterString
-         , url_format as urlFormat
-         , soldout_msg as soldOutMsg
-         , pCode_pattern as pCodePattern
-          FROM ms_shop_info WHERE sc_code = #{scCode}
-    </select>
-
-    <select id="selectShopInfo" parameterType="com.enliple.crawler.job.domain.ParseJob" resultType="com.enliple.crawler.parse.domain.ShopInfo">
-      SELECT
-         shop_name as siteName
-       , shop_url as shopUrl
-       , site_etc as siteEtc
-       FROM ms_shop
-       WHERE sc_code = #{scCode}
-    </select>
-
-    <insert id="insertProductList" parameterType="java.util.List"
-            useGeneratedKeys="true" keyProperty="gscd" keyColumn="gscd">
-      INSERT INTO ms_goods
-          (shop_no, sc_code, shop_name, pcode, category, title,
-          image, orgprice, price, dc_rate, url, display, soldout ) VALUES
-        <foreach collection="list" index="index" item="item" separator=",">
-          ( #{item.shopNo}, #{item.scCode}, #{item.shopName}, #{item.pCode}, #{item.category}, #{item.title},
-            #{item.image}, #{item.orgPrice}, #{item.price}, #{item.dcRate}, #{item.url}, #{item.display}, #{item.soldout} )
-        </foreach>
-    </insert>
-
-    <insert id="insertMsGoodsCateList" parameterType="java.util.List">
-
-    </insert>
-
-    <select id="selectMsGoods" parameterType="com.enliple.crawler.parse.domain.Product" resultType="com.enliple.crawler.parse.domain.Product">
-      SELECT
-          gscd
-        , sc_code as scCode
-        , pcode as pCode
-        , category as category
-      FROM ms_goods
-      WHERE sc_code = #{scCode} AND pcode = #{pCode}
-    </select>
-
-    <insert id="insertMsGoodsCate" parameterType="com.enliple.crawler.parse.domain.Product">
-
-    </insert>
-
-    <select id="selectCategoryFromMsGoodsCate" parameterType="com.enliple.crawler.parse.domain.Product" resultType="String">
+    <select id = "getParsePattern" parameterType="String">
 
     </select>
 
-    <update id="updateProductList" parameterType="java.util.List">
+    <update id = "updateShopParseDate" parameterType="String">
 
     </update>
 
-    <delete id="deleteProductColorList" parameterType="java.util.List">
-        DELETE FROM ms_goods_size_color where gscd IN (
-        <foreach collection="list" index="index" item="item" separator="," >
-            #{item.gscd}
-        </foreach>
-        )
-    </delete>
+    <select id = "getParsingInfoList" parameterType = "String" resultType="java.util.List">
 
-    <insert id="insertProductColorList" parameterType="java.util.List">
-        INSERT INTO ms_goods_size_color (gscd, size, color) VALUES
-        <foreach collection="list" index="index" item="item" separator=",">
-            ( #{item.gscd}, #{item.size}, #{item.color} )
+    </select>
+
+    <insert id = "insertProduct" parameterType = "com.enliple.crawler.parse.domain.Product">
+        INSERT INTO ms_goods(
+        pcode, sc_code, category, sitename, title,
+        image1, image2, image3, image4, image5, image6,
+        orgprice, price, dc_rate, url, regdate, updatedate, display,
+        width, height )
+        VALUES
+        (
+        #{pCode}, #{scCode}, #{category}, #{siteName}, #{title},
+        #{image1}, #{image2}, #{image3}, #{image4}, #{image5}, #{image6},
+        #{orgPrice}, #{price}, #{dcRate}, #{url}, NOW(), NOW(), #{display},
+        <choose>
+            <when test="width == null">
+                '0',
+            </when>
+            <otherwise>
+                #{width},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="height == null">
+                '0'
+            </when>
+            <otherwise>
+                #{height}
+            </otherwise>
+        </choose>
+        )
+    </insert>
+
+    <update id = "updateProduct" parameterType="com.enliple.crawler.parse.domain.Product">
+        UPDATE ms_goods SET
+        category = #{category}, title = #{title}, sitename = #{siteName},
+        image1 = #{image1}, image2 = #{image2}, image3 = #{image3},
+        image4 = #{image4}, image5 = #{image5}, image6 = #{image6},
+        orgprice = #{orgPrice}, price = #{price}, dc_rate = #{dcRate},
+        url = #{url}, updatedate = NOW(), display = #{display},
+        <choose>
+            <when test="width == null">
+                width = '0',
+            </when>
+            <otherwise>
+                width = #{width},
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="height == null">
+                height = '0'
+            </when>
+            <otherwise>
+                height = #{height}
+            </otherwise>
+        </choose>
+        WHERE gscd = #{gscd} AND sc_code = #{scCode}
+    </update>
+
+    <insert id = "insertProductList" parameterType="java.util.List">
+        INSERT INTO ms_goods(
+        pcode, sc_code, category, sitename, title,
+        image1, image2, image3, image4, image5, image6,
+        orgprice, price, dc_rate, url, regdate, updatedate, display,
+        width, height )
+        VALUES
+        <foreach collection="list" index="index" item="item" separator="," >
+            (
+            #{item.pCode}, #{item.scCode}, #{item.category}, #{item.siteName}, #{item.title},
+            #{item.image1}, #{item.image2}, #{item.image3}, #{item.image4}, #{item.image5}, #{item.image6},
+            #{item.orgPrice}, #{item.price}, #{item.dcRate}, #{item.url}, NOW(), NOW(), #{item.display},
+            <choose>
+                <when test="item.width == null">
+                    '0',
+                </when>
+                <otherwise>
+                    #{item.width},
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="item.height == null">
+                    '0'
+                </when>
+                <otherwise>
+                    #{item.height}
+                </otherwise>
+            </choose>
+            )
         </foreach>
     </insert>
+
+    <update id="updateProductList" parameterType="java.util.List">
+        <foreach collection="list" index="index" item="item" separator=";" >
+            UPDATE ms_goods SET
+            category = #{item.category}, title = #{item.title}, sitename = #{item.siteName},
+            image1 = #{item.image1}, image2 = #{item.image2}, image3 = #{item.image3},
+            image4 = #{item.image4}, image5 = #{item.image5}, image6 = #{item.image6},
+            orgprice = #{item.orgPrice}, price = #{item.price}, dc_rate = #{item.dcRate},
+            url = #{item.url}, updatedate = NOW(), display = #{item.display},
+            <choose>
+                <when test="item.width == null">
+                    width = '0',
+                </when>
+                <otherwise>
+                    width = #{item.width},
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="item.height == null">
+                    height = '0'
+                </when>
+                <otherwise>
+                    height = #{item.height}
+                </otherwise>
+            </choose>
+            WHERE gscd = #{item.gscd} AND sc_code = #{item.scCode}
+        </foreach>
+    </update>
+
+    <select id ="getProduct" parameterType="com.enliple.crawler.parse.domain.Product" resultType="com.enliple.crawler.parse.domain.Product">
+      SELECT gsCd, category FROM ms_goods
+		WHERE sc_code = #{scCode}
+	  AND pcode = #{pCode}
+    </select>
+
+    <update id = "updateNoRenewalProduct" parameterType="String">
+        UPDATE ms_goods SET display ='0'
+          WHERE sc_code = #{scCode}
+        <![CDATA[
+        AND updatedate <= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 3 DAY), '%Y-%m-%d')
+        ]]>
+    </update>
+
+    <update id="updateParsingDate" parameterType="String">
+      UPDATE ms_shop SET parsing_date = NOW() WHERE sc_code = #{scCode}
+    </update>
 </mapper>

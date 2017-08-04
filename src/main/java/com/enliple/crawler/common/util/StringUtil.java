@@ -22,16 +22,6 @@ public class StringUtil {
         return sb.toString();
     }
 
-    public static String readAll(InputStreamReader inputStreamReader) throws IOException {
-        char[] buffer = new char[1024];
-        StringBuilder stringBuilder = new StringBuilder();
-        int checkSum;
-        while ((checkSum = inputStreamReader.read(buffer)) != -1){
-            stringBuilder.append(buffer);
-        }
-        return stringBuilder.toString();
-    }
-
     public static String readAll(InputStream inputStream) throws IOException {
         byte[] buffer = new byte[1024];
         ByteArrayOutputStream result = new ByteArrayOutputStream();

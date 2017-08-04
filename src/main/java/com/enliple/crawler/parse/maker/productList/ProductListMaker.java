@@ -1,7 +1,5 @@
 package com.enliple.crawler.parse.maker.productList;
 
-import com.enliple.crawler.parse.domain.ParsePattern;
-
 import java.util.List;
 
 /**

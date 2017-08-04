@@ -18,7 +18,7 @@ public class ParseExecutor {
 
     static {
         try {
-            forkJoinPool = new ForkJoinPool(new LoadProperties().getMaxThreadCount());
+            forkJoinPool = new ForkJoinPool(LoadProperties.getMaxThreadCount());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -32,7 +32,7 @@ public class ParseExecutor {
         Runnable runnable;
         try{
             parseTask.setState("1");
-            taskService.updateParseJob(parseTask);
+            taskService.updateParseTask(parseTask);
             runnable = new RunnableParseShop(parseTask);
             forkJoinPool.submit(runnable);
         }catch(Exception e){

@@ -71,7 +71,7 @@ public class ParseServiceImpl implements ParseService{
         PageConnection pageConnection = PageConnectionFactory.getPageConnection(parsePattern);
         ProductListMaker productListMaker = ProductListMakerFactory.getProductListMaker(parsePattern);
         Object pageData = pageConnection.getPageData(url);
-        List<Object> productList = null;
+        List<Object> productList;
         productList = productListMaker.getProductList(pageData, parsePattern.getProductListPattern());
 
         for(Object product : productList){
@@ -129,7 +129,7 @@ public class ParseServiceImpl implements ParseService{
     }
 
     private void separateNewOrUpdateProduct(Product product){
-        Product parsedProduct = null;
+        Product parsedProduct;
         SqlSession session = null;
         try{
             session = SessionFactory.getSession();
@@ -166,7 +166,7 @@ public class ParseServiceImpl implements ParseService{
             parseDao.insertProductList(newProductList, session);
             session.commit();
         } catch (Exception e) {
-            session.rollback();
+            this.rollBack(session);
             e.printStackTrace();
         } finally {
             this.closeSession(session);
@@ -180,7 +180,7 @@ public class ParseServiceImpl implements ParseService{
             parseDao.updateProductList(updateProductList, session);
             session.commit();
         } catch (Exception e) {
-            session.rollback();
+            this.rollBack(session);
             e.printStackTrace();
         } finally {
             this.closeSession(session);
@@ -228,8 +228,8 @@ public class ParseServiceImpl implements ParseService{
             parseDao.updateParsingDate(parseTask.getScCode(), session);
             session.commit();
         } catch (Exception e) {
+            this.rollBack(session);
             e.printStackTrace();
-            session.rollback();
         } finally {
             closeSession(session);
         }
@@ -240,6 +240,14 @@ public class ParseServiceImpl implements ParseService{
             if(session != null)
                 session.close();
         }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void rollBack(SqlSession session){
+        try{
+            session.rollback();
+        }catch(NullPointerException e){
             e.printStackTrace();
         }
     }

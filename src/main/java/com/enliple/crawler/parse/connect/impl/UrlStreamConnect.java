@@ -23,8 +23,8 @@ public class UrlStreamConnect implements PageConnection {
         Object pageData = null;
         try {
             urlConnection = new URL(url).openConnection();
-            urlConnection.setReadTimeout(new LoadProperties().getGlobalTimeout());
-            urlConnection.setConnectTimeout(new LoadProperties().getGlobalTimeout());
+            urlConnection.setReadTimeout(LoadProperties.getGlobalTimeout());
+            urlConnection.setConnectTimeout(LoadProperties.getGlobalTimeout());
             inputStream = urlConnection.getInputStream();
             pageData = IOUtils.toString(inputStream, "UTF-8");
         } catch (Exception e) {

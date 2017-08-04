@@ -31,8 +31,8 @@ public class RunnableParseShop implements Runnable {
 
     private void parseShop(){
         parseTask.setState("2");
-        taskService.updateParseJob(parseTask);
+        taskService.updateParseTask(parseTask);
         parseService.parseShop(parseTask);
-        taskService.deleteParseJob(parseTask);
+        taskService.deleteParseTask(parseTask);
     }
 }

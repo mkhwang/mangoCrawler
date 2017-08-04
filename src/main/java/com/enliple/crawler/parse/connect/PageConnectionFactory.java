@@ -9,7 +9,7 @@ import com.enliple.crawler.parse.domain.ParsePattern;
  */
 public class PageConnectionFactory {
     public static PageConnection getPageConnection(ParsePattern parsePattern){
-        PageConnection pageConnection = null;
+        PageConnection pageConnection;
         if("cafe24".equals(parsePattern.getShopType()) || "makeShop".equals(parsePattern.getShopType()))
             pageConnection = new UrlStreamConnect();
         else

@@ -17,7 +17,7 @@ public class JSoupConnection implements PageConnection {
         try {
             pageData = Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0")
-                    .timeout(new LoadProperties().getGlobalTimeout())
+                    .timeout(LoadProperties.getGlobalTimeout())
                     .get();
         } catch (Exception e) {
             logger.debug(e.getMessage());

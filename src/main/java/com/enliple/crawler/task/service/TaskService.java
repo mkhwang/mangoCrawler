@@ -9,9 +9,11 @@ import java.util.List;
  */
 public interface TaskService {
 
-    List<ParseTask> selectJobList();
+    List<ParseTask> selectTaskList();
 
-    void updateParseJob(ParseTask parseTask);
+    void updateParseTask(ParseTask parseTask);
 
-    void deleteParseJob(ParseTask parseTask);
+    void deleteParseTask(ParseTask parseTask);
+
+    int getCurrentWorkingTaskCount();
 }
