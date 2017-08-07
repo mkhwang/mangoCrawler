@@ -53,10 +53,14 @@ public class Cafe24ParsingInfoUtil {
 
     public static String getMainUrl(String url){
         String result="";
+
         if(url.contains("product"))
             result =  url.split("product")[0];
         else if(url.contains("front"))
             result =  url.split("front")[0];
+        else if(url.contains("category"))
+            result =  url.split("category")[0];
+
         return result;
     }
 }

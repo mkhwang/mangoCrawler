@@ -1,6 +1,8 @@
 package com.enliple.crawler.parse.service.impl;
 
 import com.enliple.crawler.common.SessionFactory;
+import com.enliple.crawler.common.util.LoadProperties;
+import com.enliple.crawler.image.MangoImageService;
 import com.enliple.crawler.parse.connect.PageConnection;
 import com.enliple.crawler.parse.connect.PageConnectionFactory;
 import com.enliple.crawler.parse.dao.ParseDao;
@@ -15,13 +17,16 @@ import com.enliple.crawler.parse.maker.product.ProductMaker;
 import com.enliple.crawler.parse.maker.productList.ProductListMaker;
 import com.enliple.crawler.parse.service.ParseService;
 import com.enliple.crawler.task.domain.ParseTask;
+import com.mysql.jdbc.NotUpdatable;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by MinKi Hwang on 2017-08-03.
@@ -31,9 +36,11 @@ public class ParseServiceImpl implements ParseService{
     private ParseDao parseDao;
     private List<Product> newProductList;
     private List<Product> updateProductList;
+    private MangoImageService imageService;
 
     public ParseServiceImpl(){
         parseDao = new ParseDaoImpl();
+        imageService = new MangoImageService();
         newProductList = new ArrayList<>();
         updateProductList = new ArrayList<>();
     }
@@ -42,21 +49,24 @@ public class ParseServiceImpl implements ParseService{
     public void parseShop(ParseTask parseTask) {
         List<ParsingInfo> parsingInfoList = this.getParsingInfoList(parseTask.getScCode());
         ParsePattern parsePattern = this.getParsePattern(parseTask.getScCode());
-
+        System.out.println(parseTask.getScCode() + " / parsingInfoList size " + parsingInfoList.size());
+        logger.debug(parseTask.getScCode() + " / parsingInfoList size " + parsingInfoList.size());
         for(ParsingInfo parsingInfo : parsingInfoList){
             try {
                 parseCategory(parsingInfo, parsePattern);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (NullPointerException e) {
+                break;
             }
         }
         this.updateRenewalProductAndParsingDate(parseTask);
     }
 
-    private void parseCategory(ParsingInfo parsingInfo, ParsePattern parsePattern) throws Exception{
-        List<String> urlList = PageMaker.getPages(parsingInfo.getUrl(), parsePattern.getPagePattern());
+    private void parseCategory(ParsingInfo parsingInfo, ParsePattern parsePattern) throws NullPointerException{
+        List<String> urlList = PageMaker.getPages(parsingInfo.getUrl()+parsingInfo.getCategoryCode(), parsePattern.getPagePattern());
         for(String url : urlList){
             try {
+                System.out.println(parsingInfo.getShopName() + " / " + url);
+                logger.debug(parsingInfo.getShopName() + " / " + url);
                 parsePage(parsingInfo, parsePattern, url);
             } catch(NullPointerException e){
                 logger.debug(e.getMessage());
@@ -75,22 +85,32 @@ public class ParseServiceImpl implements ParseService{
         productList = productListMaker.getProductList(pageData, parsePattern.getProductListPattern());
 
         for(Object product : productList){
-            this.parseProduct(parsingInfo, parsePattern, product);
+            try {
+                this.parseProduct(parsingInfo, parsePattern, product);
+            } catch (NullPointerException e) {
+                continue;
+            }
         }
         this.insertOrUpdateProductList();
         this.clearProductList();
     }
 
-    private void parseProduct(ParsingInfo parsingInfo, ParsePattern parsePattern, Object product){
+    private void parseProduct(ParsingInfo parsingInfo, ParsePattern parsePattern, Object product) throws NullPointerException{
         ProductMaker productMaker = ProductMakerFactory.getProductMaker(parsePattern);
         Product parsedProduct = productMaker.getProduct(product, parsePattern);
+
+        /*
+        if(!"".equals(parsePattern.getFilterString()))
+            this.executeTitleFilter(parsedProduct, parsePattern);
+        */
+
         this.refineProduct(parsingInfo, parsePattern, parsedProduct);
+        System.out.println(parsedProduct.toString());
+        logger.debug(parsedProduct.toString());
         this.separateNewOrUpdateProduct(parsedProduct);
     }
 
-    private void refineProduct(ParsingInfo parsingInfo, ParsePattern parsePattern, Product product){
-        if(!"".equals(parsingInfo.getSiteEtc()))
-            product.setUrl(product.getUrl()+"&"+parsingInfo.getSiteEtc());
+    private void refineProduct(ParsingInfo parsingInfo, ParsePattern parsePattern, Product product) throws NullPointerException{
 
         if(!"".equals(parsePattern.getUrlFormat())){
             if(parsePattern.getUrlFormat().contains("{pCode}"))
@@ -103,29 +123,44 @@ public class ParseServiceImpl implements ParseService{
                 }
             }
         }
+
+        /*
+        if(!"".equals(parsingInfo.getSiteEtc()))
+            product.setUrl(product.getUrl()+"&"+parsingInfo.getSiteEtc());
+         */
+
         product.setScCode(parsingInfo.getScCode());
         product.setCategory(parsingInfo.getCategoryMatchCode());
         product.setSiteName(parsingInfo.getShopName());
 
-        if("true".equals(parsingInfo.getImageTransform())){
-            try {
-                imageTransform(product);
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            if("0".equals(parsingInfo.getImageTransform())){
+                imageService.imageTransform(product);
+            } else if("1".equals(parsingInfo.getImageTransform())){
+                imageService.setImageInformationFromUrl(product);
+            } else {
+                product.setWidth(parsingInfo.getImageWidth());
+                product.setHeight(parsingInfo.getImageHeight());
             }
-        } else {
-            /**
-             * Todo getImageFromUrl
-             * width height
+        } catch (Exception e) {
+            e.printStackTrace();
+            /*
+            product.setWidth(parsingInfo.getImageWidth());
+            product.setHeight(parsingInfo.getImageHeight());
              */
+            product.setWidth(300);
+            product.setHeight(300);
         }
+
+        product.setDisplay("1");
     }
 
-    private void imageTransform(Product product) throws Exception{
-        /**
-         * Todo 이미지 변환
-         *
-         */
+    private void executeTitleFilter(Product product, ParsePattern parsePattern) throws NullPointerException{
+        String[] filterStrings = parsePattern.getFilterString().split("\\^");
+        for(String filterString : filterStrings){
+            if(product.getTitle().contains(filterString))
+                throw new NullPointerException();
+        }
     }
 
     private void separateNewOrUpdateProduct(Product product){
@@ -221,11 +256,16 @@ public class ParseServiceImpl implements ParseService{
     }
 
     private void updateRenewalProductAndParsingDate(ParseTask parseTask){
+        System.out.println(parseTask.getScCode() + "  updateRenewalProductAndParsingDate");
+        logger.debug(parseTask.getScCode() + "  updateRenewalProductAndParsingDate");
         SqlSession session = null;
         try {
             session = SessionFactory.getSession();
-            parseDao.updateNoRenewalProduct(parseTask.getScCode(), session);
-            parseDao.updateParsingDate(parseTask.getScCode(), session);
+            Map<String, String> renewalProductMap = new HashMap<>();
+            renewalProductMap.put("scCode", parseTask.getScCode());
+            renewalProductMap.put("soldOutPeriod",  LoadProperties.getSoldoutPeriod());
+            parseDao.updateNoRenewalProduct(renewalProductMap, session);
+            parseDao.updateShopParseDate(parseTask.getScCode(), session);
             session.commit();
         } catch (Exception e) {
             this.rollBack(session);

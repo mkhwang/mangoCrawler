@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -18,11 +19,12 @@ public class UrlStreamConnect implements PageConnection {
 
     @Override
     public Object getPageData(String url) throws Exception{
-        URLConnection urlConnection;
+        HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         Object pageData = null;
         try {
-            urlConnection = new URL(url).openConnection();
+            URL urlObject = new URL(url);
+            urlConnection = (HttpURLConnection) urlObject.openConnection();
             urlConnection.setReadTimeout(LoadProperties.getGlobalTimeout());
             urlConnection.setConnectTimeout(LoadProperties.getGlobalTimeout());
             inputStream = urlConnection.getInputStream();
@@ -34,6 +36,12 @@ public class UrlStreamConnect implements PageConnection {
                 if(inputStream != null)
                     inputStream.close();
             } catch (IOException e) {
+                logger.debug(e.getMessage());
+            }
+            try{
+                if(urlConnection != null)
+                    urlConnection.disconnect();
+            }catch(Exception e){
                 logger.debug(e.getMessage());
             }
         }

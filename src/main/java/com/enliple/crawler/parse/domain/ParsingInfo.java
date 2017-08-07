@@ -14,6 +14,8 @@ public class ParsingInfo {
     private String siteEtc;
     private String imageTransform;
     private String shopType;
+    private int imageWidth;
+    private int imageHeight;
 
     public String getUrl() {
         return url;
@@ -94,4 +96,21 @@ public class ParsingInfo {
     public void setShopType(String shopType) {
         this.shopType = shopType;
     }
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
+    }
+
 }

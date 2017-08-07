@@ -6,6 +6,7 @@ import com.enliple.crawler.parse.domain.Product;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by MinKi Hwang on 2017-08-03.
@@ -19,6 +20,5 @@ public interface ParseDao {
     void updateShopParseDate(String scCode, SqlSession session);
     List<ParsingInfo> getParsingInfoList(String scCode, SqlSession session);
     Product getProduct(Product product, SqlSession session);
-    void updateNoRenewalProduct(String scCode, SqlSession session);
-    void updateParsingDate(String scCode, SqlSession session);
+    void updateNoRenewalProduct(Map renewalProductMap, SqlSession session);
 }

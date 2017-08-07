@@ -1,9 +1,12 @@
 package com.enliple.crawler.parse.maker.productList.impl;
 
 import com.enliple.crawler.parse.maker.productList.ProductListMaker;
+
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.List;
 
@@ -17,7 +20,13 @@ public class Cafe24ProductListMaker implements ProductListMaker{
     @SuppressWarnings("unchecked")
     public List<Object> getProductList(Object pageData, String productListPattern) throws NullPointerException{
         List<Object> productList;
-        JSONObject page = (JSONObject) pageData;
+        JSONParser jsonParser = new JSONParser();
+        JSONObject page = new JSONObject();
+        try {
+            page = (JSONObject) jsonParser.parse((String) pageData);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         page = (JSONObject) page.get("rtn_data");
         if(page.get("data") != null)
             productList = (JSONArray)page.get("data");

@@ -8,16 +8,48 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="parse">
-    <select id = "getParsePattern" parameterType="String">
 
+    <select id = "getParsePattern" parameterType="String" resultType="com.enliple.crawler.parse.domain.ParsePattern">
+      SELECT
+            sc_code             AS scCode,
+            shop_type           AS shopType,
+            productlist_pattern AS productListPattern,
+            title_pattern       AS titlePattern,
+            url_pattern         AS urlPattern,
+            imgurl_pattern      AS imgUrlPattern,
+            price_pattern       AS pricePattern,
+            originprice_pattern AS originPricePattern,
+            saleCheck_pattern   AS saleCheckPattern,
+            productCode_pattern AS productCodePattern,
+            urlformat           AS urlFormat,
+            page_pattern        AS pagePattern,
+            soldout_msg         AS soldOutMsg,
+            filter_msg          AS filterMsg
+        FROM ms_parsing_pattern
+        WHERE sc_code =  #{scCode};
     </select>
 
     <update id = "updateShopParseDate" parameterType="String">
-
+      UPDATE ms_shop SET parsing_date = NOW() WHERE sc_code = #{scCode}
     </update>
 
-    <select id = "getParsingInfoList" parameterType = "String" resultType="java.util.List">
-
+    <select id = "getParsingInfoList" parameterType = "String" resultType="com.enliple.crawler.parse.domain.ParsingInfo">
+        SELECT
+            mpi.url,
+            mpi.mobile_url          AS mobileUrl,
+            mpi.category_code       AS categoryCode,
+            mpi.pcode               AS pCode,
+            mpi.tobe_sc_code        AS scCode,
+            mpi.site_name           AS shopName,
+            mpi.category_match_code AS categoryMatchCode,
+            ms.site_etc             AS siteETC,
+            '2'                      AS imageTransform,
+            'cafe24'                      AS shopType,
+            ''                      AS imageWidth,
+            ''                      AS imageHeight
+        FROM ms_parsing_info mpi, ms_shop ms
+        WHERE mpi.tobe_sc_code = #{scCode}
+             AND mpi.tobe_sc_code = ms.sc_code
     </select>
 
     <insert id = "insertProduct" parameterType = "com.enliple.crawler.parse.domain.Product">
@@ -73,7 +105,7 @@
                 height = #{height}
             </otherwise>
         </choose>
-        WHERE gscd = #{gscd} AND sc_code = #{scCode}
+        WHERE gscd = #{gsCd} AND sc_code = #{scCode}
     </update>
 
     <insert id = "insertProductList" parameterType="java.util.List">
@@ -132,7 +164,7 @@
                     height = #{item.height}
                 </otherwise>
             </choose>
-            WHERE gscd = #{item.gscd} AND sc_code = #{item.scCode}
+            WHERE gscd = #{item.gsCd} AND sc_code = #{item.scCode}
         </foreach>
     </update>
 
@@ -142,15 +174,12 @@
 	  AND pcode = #{pCode}
     </select>
 
-    <update id = "updateNoRenewalProduct" parameterType="String">
+    <update id = "updateNoRenewalProduct" parameterType="Map">
         UPDATE ms_goods SET display ='0'
           WHERE sc_code = #{scCode}
         <![CDATA[
-        AND updatedate <= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 3 DAY), '%Y-%m-%d')
+        AND updatedate <= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL #{soldOutPeriod} DAY), '%Y-%m-%d')
         ]]>
     </update>
 
-    <update id="updateParsingDate" parameterType="String">
-      UPDATE ms_shop SET parsing_date = NOW() WHERE sc_code = #{scCode}
-    </update>
 </mapper>

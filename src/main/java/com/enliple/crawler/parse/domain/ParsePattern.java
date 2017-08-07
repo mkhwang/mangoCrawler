@@ -1,9 +1,5 @@
 package com.enliple.crawler.parse.domain;
 
-import com.enliple.crawler.parse.connect.PageConnection;
-import com.enliple.crawler.parse.connect.impl.JSoupConnection;
-import com.enliple.crawler.parse.connect.impl.UrlStreamConnect;
-
 /**
  * Created by MinKi Hwang on 2017-08-01.
  */
@@ -22,8 +18,6 @@ public class ParsePattern {
     private String urlFormat;
     private String pagePattern;
     private String soldOutMsg;
-    private String pCodePattern;
-    private PageConnection pageConnection;
 
     public String getShopType() {
         return shopType;
@@ -137,22 +131,4 @@ public class ParsePattern {
         this.soldOutMsg = soldOutMsg;
     }
 
-    public String getpCodePattern() {
-        return pCodePattern;
-    }
-
-    public void setpCodePattern(String pCodePattern) {
-        this.pCodePattern = pCodePattern;
-    }
-
-    public void setPageConnection(){
-        if(shopType.toLowerCase().equals("cafe24") || shopType.toLowerCase().equals("makeshop"))
-            pageConnection = new UrlStreamConnect();
-        else
-            pageConnection = new JSoupConnection();
-    }
-
-    public Object getPageData(String url) throws Exception {
-        return pageConnection.getPageData(url);
-    }
 }

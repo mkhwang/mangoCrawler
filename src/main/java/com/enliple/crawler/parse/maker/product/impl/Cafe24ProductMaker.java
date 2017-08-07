@@ -1,5 +1,6 @@
 package com.enliple.crawler.parse.maker.product.impl;
 
+import com.enliple.crawler.common.exception.SoldOutException;
 import com.enliple.crawler.parse.domain.ParsePattern;
 import com.enliple.crawler.parse.domain.Product;
 import com.enliple.crawler.parse.maker.product.ProductMaker;
@@ -25,12 +26,12 @@ public class Cafe24ProductMaker implements ProductMaker {
                     || jsonProduct.get("product_price").toString().toLowerCase().contains("sold")
                     || "".equals(jsonProduct.get("product_price").toString().replaceAll("[^0-9]", ""))
                     ) {
-                throw new NullPointerException();
+                throw new SoldOutException();
             }
             resultProduct = new Product();
             resultProduct.setTitle(jsonProduct.get("product_name").toString());
             resultProduct.setpCode(jsonProduct.get("product_no").toString());
-            resultProduct.setImage1(jsonProduct.get(parsePattern.getImgUrlPattern()).toString());
+            resultProduct.setImage1("http"+jsonProduct.get(parsePattern.getImgUrlPattern()).toString());
             resultProduct.setUrl("/product/detail.html?product_no=" + resultProduct.getpCode());
 
             if ("product_sale_display".equals(parsePattern.getSaleCheckPattern())
@@ -78,9 +79,15 @@ public class Cafe24ProductMaker implements ProductMaker {
             if (resultProduct.getOrgPrice() == 0 || "".equals(String.valueOf(resultProduct.getOrgPrice())))
                 resultProduct.setOrgPrice(resultProduct.getpCode());
 
+        } catch (SoldOutException e) {
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if(resultProduct == null)
+            throw new NullPointerException();
+
         return resultProduct;
     }
 }

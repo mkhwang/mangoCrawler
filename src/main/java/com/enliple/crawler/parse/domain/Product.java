@@ -4,23 +4,25 @@ package com.enliple.crawler.parse.domain;
  * Created by MinKi Hwang on 2017-08-01.
  */
 public class Product {
-    String gsCd;
-    String pCode ;
-    String scCode;
-    String category;
-    String siteName;
-    String title;
-    String image1;
-    String image2;
-    String image3;
-    String image4;
-    String image5;
-    String image6;
-    long orgPrice = 0;
-    long price = 0;
-    int dcRate = 0;
-    String url;
-    String display = "";
+    private String gsCd;
+    private String pCode ;
+    private String scCode;
+    private String category;
+    private String siteName;
+    private String title;
+    private String image1;
+    private String image2;
+    private String image3;
+    private String image4;
+    private String image5;
+    private String image6;
+    private long orgPrice = 0;
+    private long price = 0;
+    private int dcRate = 0;
+    private String url;
+    private String display = "";
+    private int width;
+    private int height;
 
     public String getGsCd() {
         return gsCd;
@@ -176,5 +178,37 @@ public class Product {
 
     public void calculateSetDcRate(){
 
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append("title : ").append(this.getTitle()).append("\n");
+        builder.append("pcode : ").append(this.getpCode()).append("\t / ");
+        builder.append("orgprice : ").append(this.getOrgPrice()).append("\t / ");
+        builder.append("price : ").append(this.getPrice()).append("\n");
+        builder.append("url : ").append(this.getUrl()).append("\n");
+        builder.append("imgurl : ").append(this.getImage1()).append("\t / ");
+        builder.append("width : ").append(this.getWidth()).append(" / ");
+        builder.append("height : ").append(this.getHeight()).append(" / ");
+        builder.append("display : ").append(this.getDisplay()).append("\n");
+        builder.append("==============================================================")
+                .append("==============================================================");
+        return builder.toString();
     }
 }

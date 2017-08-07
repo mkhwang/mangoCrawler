@@ -33,8 +33,12 @@ public class ParseExecutor {
         try{
             parseTask.setState("1");
             taskService.updateParseTask(parseTask);
+            System.out.println(parseTask.getScCode() + " is ready to parse..");
+            logger.debug(parseTask.getScCode() + " is ready to parse..");
             runnable = new RunnableParseShop(parseTask);
             forkJoinPool.submit(runnable);
+            System.out.println(parseTask.getScCode() + " RUN()");
+            logger.debug(parseTask.getScCode() + " RUN()");
         }catch(Exception e){
             logger.debug(e);
         }

@@ -14,9 +14,12 @@ import java.util.List;
  * Created by MinKi Hwang on 2017-08-02.
  */
 public class Parse {
-    private Logger logger = Logger.getLogger(Parse.class);
+    private static Logger logger = Logger.getLogger(Parse.class);
 
     public static void main(String[] args){
+        System.out.println("parse Start");
+        logger.debug("parse Start");
+
         ParseExecutor parseExecutor = new ParseExecutor();
         TaskService taskService = new TaskServiceImpl();
         List<ParseTask> parseTasks;
@@ -26,9 +29,11 @@ public class Parse {
                 if(taskService.getCurrentWorkingTaskCount() < LoadProperties.getMaxWaitTask()){
                     parseTasks = taskService.selectTaskList();
 
-                    for(ParseTask task : parseTasks)
+                    for(ParseTask task : parseTasks){
+                        System.out.println("ParseExecutor add : " + task.getScCode() + "("+task.getState()+")");
+                        logger.debug("ParseExecutor add : " + task.getScCode() + "("+task.getState()+")");
                         parseExecutor.add(task);
-
+                    }
                     parseTasks.clear();
                 }
             }catch(Exception e){

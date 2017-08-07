@@ -7,6 +7,7 @@ import com.enliple.crawler.parse.domain.Product;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by MinKi Hwang on 2017-08-03.
@@ -53,12 +54,7 @@ public class ParseDaoImpl implements ParseDao {
     }
 
     @Override
-    public void updateNoRenewalProduct(String scCode, SqlSession session) {
-        session.update("parse.updateNoRenewalProduct", scCode);
-    }
-
-    @Override
-    public void updateParsingDate(String scCode, SqlSession session) {
-        session.update("parse.updateParsingDate", scCode);
+    public void updateNoRenewalProduct(Map renewalProductMap, SqlSession session) {
+        session.update("parse.updateNoRenewalProduct", renewalProductMap);
     }
 }
