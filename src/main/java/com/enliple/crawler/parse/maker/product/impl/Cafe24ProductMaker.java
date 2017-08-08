@@ -31,11 +31,11 @@ public class Cafe24ProductMaker implements ProductMaker {
             resultProduct = new Product();
             resultProduct.setTitle(jsonProduct.get("product_name").toString());
             resultProduct.setpCode(jsonProduct.get("product_no").toString());
-            resultProduct.setImage1("http"+jsonProduct.get(parsePattern.getImgUrlPattern()).toString());
+            resultProduct.setImage1("http:"+jsonProduct.get(parsePattern.getImgUrlPattern()).toString());
             resultProduct.setUrl("/product/detail.html?product_no=" + resultProduct.getpCode());
 
             if ("product_sale_display".equals(parsePattern.getSaleCheckPattern())
-                    &&
+                    ||
                     ("".equals(parsePattern.getSaleCheckPattern())
                             && "".equals(parsePattern.getPricePattern())
                             && "".equals(parsePattern.getOriginPricePattern()))) {

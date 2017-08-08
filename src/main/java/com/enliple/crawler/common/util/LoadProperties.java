@@ -78,5 +78,7 @@ public class LoadProperties {
         return Integer.parseInt(properties.getProperty("maxWaitTask"));
     }
 
-    public static String getSoldoutPeriod() { return properties.getProperty("soldOutPeriod"); }
+    public static String getSoldOutPeriod() { return properties.getProperty("soldOutPeriod"); }
+
+    public static String getImageSaveDir() { return properties.getProperty("imageSaveDir"); }
 }

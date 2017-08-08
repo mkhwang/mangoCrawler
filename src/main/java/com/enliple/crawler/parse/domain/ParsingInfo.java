@@ -1,5 +1,7 @@
 package com.enliple.crawler.parse.domain;
 
+import com.enliple.crawler.common.util.StringUtil;
+
 /**
  * Created by MinKi Hwang on 2017-08-01.
  */
@@ -16,6 +18,7 @@ public class ParsingInfo {
     private String shopType;
     private int imageWidth;
     private int imageHeight;
+    private String imageDir;
 
     public String getUrl() {
         return url;
@@ -113,4 +116,11 @@ public class ParsingInfo {
         this.imageHeight = imageHeight;
     }
 
+    public String getImageDir() {
+        return imageDir;
+    }
+
+    public void setImageDir() {
+        imageDir = StringUtil.getDomainAuthority(url);
+    }
 }

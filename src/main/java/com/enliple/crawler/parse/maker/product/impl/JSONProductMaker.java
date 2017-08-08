@@ -26,7 +26,6 @@ public class JSONProductMaker implements ProductMaker {
             resultProduct.setPrice(jsonProduct.get(parsePattern.getPricePattern()).toString());
             resultProduct.setOrgPrice(jsonProduct.get(parsePattern.getOriginPricePattern()).toString());
             resultProduct.setpCode(jsonProduct.get(parsePattern.getProductCodePattern()).toString());
-            resultProduct.calculateSetDcRate();
         } catch (Exception e) {
             e.printStackTrace();
         }

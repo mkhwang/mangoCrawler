@@ -10,8 +10,6 @@ import com.enliple.crawler.parse.maker.product.ProductMaker;
 public class MakeShopProductMaker implements ProductMaker{
     @Override
     public Product getProduct(Object data, ParsePattern parsePattern) throws NullPointerException {
-
-
         return null;
     }
 }

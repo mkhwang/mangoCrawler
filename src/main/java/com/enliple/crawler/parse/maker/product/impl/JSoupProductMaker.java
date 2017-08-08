@@ -21,7 +21,6 @@ public class JSoupProductMaker implements ProductMaker {
                 resultProduct.setImage1(JSoupUtil.getAttribute(data, parsePattern.getImgUrlPattern()));
                 resultProduct.setPrice(JSoupUtil.getElements(data, parsePattern.getPricePattern()).text());
                 resultProduct.setOrgPrice(JSoupUtil.getElements(data, parsePattern.getOriginPricePattern()).text());
-                resultProduct.calculateSetDcRate();
             }
         } catch (Exception e) {
             e.printStackTrace();
