@@ -21,4 +21,6 @@ public interface ParseDao {
     List<ParsingInfo> getParsingInfoList(String scCode, SqlSession session);
     Product getProduct(Product product, SqlSession session);
     void updateNoRenewalProduct(Map renewalProductMap, SqlSession session);
+    void updateNullImageWidth(String scCode, SqlSession session);
+    void updateNullImageHeight(String scCode, SqlSession session);
 }

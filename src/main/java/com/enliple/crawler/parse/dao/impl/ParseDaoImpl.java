@@ -57,4 +57,14 @@ public class ParseDaoImpl implements ParseDao {
     public void updateNoRenewalProduct(Map renewalProductMap, SqlSession session) {
         session.update("parse.updateNoRenewalProduct", renewalProductMap);
     }
+
+    @Override
+    public void updateNullImageWidth(String scCode, SqlSession session) {
+        session.update("parse.updateNullImageWidth", scCode);
+    }
+
+    @Override
+    public void updateNullImageHeight(String scCode, SqlSession session) {
+        session.update("parse.updateNullImageHeight", scCode);
+    }
 }

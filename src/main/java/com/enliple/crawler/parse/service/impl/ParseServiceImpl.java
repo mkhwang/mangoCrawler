@@ -59,6 +59,7 @@ public class ParseServiceImpl implements ParseService{
                 break;
             }
         }
+        this.updateNullImageWidth(parseTask);
         this.updateRenewalProductAndParsingDate(parseTask);
     }
 
@@ -252,6 +253,23 @@ public class ParseServiceImpl implements ParseService{
             renewalProductMap.put("soldOutPeriod",  LoadProperties.getSoldOutPeriod());
             parseDao.updateNoRenewalProduct(renewalProductMap, session);
             parseDao.updateShopParseDate(parseTask.getScCode(), session);
+            session.commit();
+        } catch (Exception e) {
+            this.rollBack(session);
+            e.printStackTrace();
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    private void updateNullImageWidth(ParseTask parseTask){
+        System.out.println(parseTask.getScCode() + "  updateNullImageWidth");
+        logger.debug(parseTask.getScCode() + "  updateNullImageWidth");
+        SqlSession session = null;
+        try {
+            session = SessionFactory.getSession();
+            parseDao.updateNullImageWidth(parseTask.getScCode(), session);
+            parseDao.updateNullImageHeight(parseTask.getScCode(), session);
             session.commit();
         } catch (Exception e) {
             this.rollBack(session);

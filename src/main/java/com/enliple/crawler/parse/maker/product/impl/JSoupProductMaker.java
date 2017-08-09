@@ -12,6 +12,9 @@ import org.jsoup.nodes.Element;
 public class JSoupProductMaker implements ProductMaker {
     @Override
     public Product getProduct(Object data, ParsePattern parsePattern) throws NullPointerException {
+        /**
+         * Todo check more impl
+         */
         Product resultProduct = null;
         try {
             if(data instanceof Element){

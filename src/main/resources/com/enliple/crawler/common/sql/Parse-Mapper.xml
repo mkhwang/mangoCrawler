@@ -182,4 +182,11 @@
         ]]>
     </update>
 
+    <update id="updateNullImageWidth" parameterType="String">
+      UPDATE ms_goods SET display ='0' WHERE sc_code = #{scCode} AND width ='0'
+    </update>
+
+    <update id="updateNullImageHeight" parameterType="String">
+      UPDATE ms_goods SET display ='0' WHERE sc_code = #{scCode} AND height ='0'
+    </update>
 </mapper>
