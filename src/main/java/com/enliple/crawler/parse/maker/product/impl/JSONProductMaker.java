@@ -15,7 +15,7 @@ public class JSONProductMaker implements ProductMaker {
 
     @Override
     public Product getProduct(Object data, ParsePattern parsePattern) throws NullPointerException {
-        Product resultProduct = null;
+        Product resultProduct;
         JSONObject jsonProduct;
         try {
             jsonProduct = (JSONObject) data;
@@ -28,7 +28,12 @@ public class JSONProductMaker implements ProductMaker {
             resultProduct.setpCode(jsonProduct.get(parsePattern.getProductCodePattern()).toString());
         } catch (Exception e) {
             e.printStackTrace();
+            resultProduct = null;
         }
+
+        if(resultProduct == null)
+            throw new NullPointerException();
+
         return resultProduct;
     }
 }

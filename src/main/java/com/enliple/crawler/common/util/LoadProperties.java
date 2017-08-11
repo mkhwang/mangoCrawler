@@ -81,4 +81,12 @@ public class LoadProperties {
     public static String getSoldOutPeriod() { return properties.getProperty("soldOutPeriod"); }
 
     public static String getImageSaveDir() { return properties.getProperty("imageSaveDir"); }
+
+    public static boolean getOriginalImageSave() {
+        boolean result = false;
+        if("true".equals(properties.getProperty("originalImageSave")))
+            result = true;
+
+        return result;
+    }
 }

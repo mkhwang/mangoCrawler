@@ -22,6 +22,9 @@ public class MangoImageService {
     private RenewImageService renewImageService;
 
     public void setImageInformation(Product product, ParsingInfo parsingInfo) {
+        if(LoadProperties.getOriginalImageSave())
+            product.setImage2(product.getImage1());
+
         if ("".equals(parsingInfo.getImageDir()) || parsingInfo.getImageDir() == null){
             parsingInfo.setImageDir();
         }
@@ -34,7 +37,7 @@ public class MangoImageService {
             else if("2".equals(parsingInfo.getImageTransform())){
                 renewImageService = new RenewImageService();
                 renewImageService.saveImage(product, "big", "2", parsingInfo.getImageDir(), product.getImage1());
-                renewImageService.saveImage(product, "small", "2", parsingInfo.getImageDir(), product.getImage1());
+                //renewImageService.saveImage(product, "small", "2", parsingInfo.getImageDir(), product.getImage1());
             } else {
                 product.setWidth(parsingInfo.getImageWidth());
                 product.setHeight(parsingInfo.getImageHeight());

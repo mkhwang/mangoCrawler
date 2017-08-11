@@ -44,7 +44,7 @@
             mpi.category_match_code AS categoryMatchCode,
             ms.site_etc             AS siteETC,
             '2'                      AS imageTransform,
-            'cafe24'                      AS shopType,
+            'makeshop'                      AS shopType,
             ''                      AS imageWidth,
             ''                      AS imageHeight
         FROM ms_parsing_info mpi, ms_shop ms

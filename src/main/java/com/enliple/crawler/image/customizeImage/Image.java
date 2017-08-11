@@ -13,10 +13,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
@@ -406,16 +403,21 @@ public class Image {
 	 * @throws IOException
 	 */
 	public void writeToJPG(File file, float quality) throws IOException {
-		FileOutputStream out = new FileOutputStream(file);
-		// Encodes image as a JPEG data stream
-		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-
-		JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(img);
-
-		param.setQuality(quality, true);
-
-		encoder.setJPEGEncodeParam(param);
-		encoder.encode(img);
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(file);
+			// Encodes image as a JPEG data stream
+			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+			JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(img);
+			param.setQuality(quality, true);
+			encoder.setJPEGEncodeParam(param);
+			encoder.encode(img);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if(out != null)
+				out.close();
+		}
 	}
 
 	/**

@@ -18,7 +18,7 @@ public class PatternTest {
     public void connectionTest() throws Exception {
         System.out.println("Connection Test Start");
         try(SqlSession session = SessionFactory.getSession()){
-            ParsePattern parsePattern = new ParsePattern();
+            ParsePattern parsePattern;
             ParseDao parseDao = new ParseDaoImpl();
             parsePattern = parseDao.getParsePattern("167b007a416fdcbf602d78a613c98c44", session);
             System.out.println(parsePattern.getSaleCheckPattern());

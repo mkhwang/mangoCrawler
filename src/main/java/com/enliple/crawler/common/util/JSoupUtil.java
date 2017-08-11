@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
  */
 public class JSoupUtil {
     public static Elements getElements(Object data, String pattern) {
-        String[] patternDetail = pattern.split("&");
+        String[] patternDetail = pattern.split("\\^");
         Elements tempElements = null;
         Element tempElement = null;
         for (int i = 0; i < patternDetail.length; i++) {
@@ -39,8 +39,8 @@ public class JSoupUtil {
         String result;
         if(pattern.contains("^")){
             try {
-                Elements temp = getElements(data, pattern.split("\\^")[0]);
-                result = temp.attr(pattern.split("\\^")[1]);
+                Elements temp = getElements(data, pattern.split("\\&")[0]);
+                result = temp.attr(pattern.split("\\&")[1]);
             } catch (Exception e) {
                 result = "";
             }

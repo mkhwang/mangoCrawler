@@ -27,7 +27,12 @@ public class JSoupProductMaker implements ProductMaker {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            resultProduct = null;
         }
+
+        if(resultProduct == null)
+            throw new NullPointerException();
+
         return resultProduct;
     }
 }

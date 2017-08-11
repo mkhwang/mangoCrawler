@@ -46,34 +46,39 @@ public class Cafe24ProductMaker implements ProductMaker {
                     resultProduct.setPrice(jsonProduct.get("product_price").toString());
                     resultProduct.setOrgPrice(resultProduct.getPrice());
                 }
+
             } else if ("product_custom".equals(parsePattern.getSaleCheckPattern())) {
                 resultProduct.setPrice(jsonProduct.get("product_price").toString());
                 if (!"".equals(jsonProduct.get("product_custom").toString()))
                     resultProduct.setOrgPrice(jsonProduct.get("product_custom").toString());
+
             } else if ("origin_prd_price_sale".equals(parsePattern.getSaleCheckPattern())) {
                 resultProduct.setOrgPrice(jsonProduct.get("product_price").toString());
                 if (jsonProduct.containsKey(parsePattern.getSaleCheckPattern()))
                     resultProduct.setPrice(jsonProduct.get(parsePattern.getSaleCheckPattern()).toString());
                 else
                     resultProduct.setPrice(resultProduct.getOrgPrice());
+
             } else if ("disp_product_custom".equals(parsePattern.getSaleCheckPattern())) {
                 int tempPrice = Integer.parseInt(jsonProduct.get("disp_product_custom").toString().replaceAll("[^0-9]", ""));
                 resultProduct.setPrice(jsonProduct.get("product_price").toString());
                 if (tempPrice > 0)
                     resultProduct.setOrgPrice(jsonProduct.get("product_cumstom").toString());
+
             } else if ("summary_desc".equals(parsePattern.getSaleCheckPattern())) {
                 resultProduct.setPrice(jsonProduct.get("product_price").toString());
                 if (!"".equals(jsonProduct.get(parsePattern.getSaleCheckPattern())))
                     resultProduct.setOrgPrice(jsonProduct.get(parsePattern.getSaleCheckPattern()).toString());
+
             } else if ("c_dc_price_apply".equals(parsePattern.getSaleCheckPattern())) {
                 resultProduct.setOrgPrice(jsonProduct.get("product_price").toString());
                 if (jsonProduct.containsKey(parsePattern.getSaleCheckPattern()))
                     resultProduct.setPrice(jsonProduct.get(parsePattern.getSaleCheckPattern()).toString());
                 else
                     resultProduct.setPrice(resultProduct.getOrgPrice());
+
             } else {
                 resultProduct.setPrice(jsonProduct.get("product_price").toString());
-                resultProduct.setOrgPrice(resultProduct.getPrice());
             }
 
             if (resultProduct.getOrgPrice() == 0 || "".equals(String.valueOf(resultProduct.getOrgPrice())))
