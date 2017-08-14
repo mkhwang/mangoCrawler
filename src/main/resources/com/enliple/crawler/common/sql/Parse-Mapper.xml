@@ -21,7 +21,8 @@
             originprice_pattern AS originPricePattern,
             saleCheck_pattern   AS saleCheckPattern,
             productCode_pattern AS productCodePattern,
-            urlformat           AS urlFormat,
+            url_format           AS urlFormat,
+            imgurl_format      AS imgUrlFormat,
             page_pattern        AS pagePattern,
             soldout_msg         AS soldOutMsg,
             filter_msg          AS filterMsg
@@ -43,8 +44,8 @@
             mpi.site_name           AS shopName,
             mpi.category_match_code AS categoryMatchCode,
             ms.site_etc             AS siteETC,
-            '2'                      AS imageTransform,
-            'makeshop'                      AS shopType,
+            ms.image_trans_flag      AS imageTransform,
+            ms.shop_type                AS shopType,
             ''                      AS imageWidth,
             ''                      AS imageHeight
         FROM ms_parsing_info mpi, ms_shop ms

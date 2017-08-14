@@ -12,9 +12,9 @@ public class ProductListMakerFactory {
         ProductListMaker maker;
         if("cafe24".equals(parsePattern.getShopType()))
             maker = new Cafe24ProductListMaker();
-        else if("makeShop".equals(parsePattern.getShopType()))
+        else if("makeshop".equals(parsePattern.getShopType()))
             maker = new MakeShopProductListMaker();
-        else if(parsePattern.getProductListPattern().contains("&"))
+        else if(parsePattern.getProductListPattern().contains("$"))
             maker = new ElementsFromJSONProductListMaker();
         else if("json".equals(parsePattern.getShopType()))
             maker = new JSONProductListMaker();

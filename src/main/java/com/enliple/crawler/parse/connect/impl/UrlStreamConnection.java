@@ -9,13 +9,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created by MinKi Hwang on 2017-08-02.
  */
-public class UrlStreamConnect implements PageConnection {
-    private Logger logger = Logger.getLogger(UrlStreamConnect.class);
+public class UrlStreamConnection implements PageConnection {
+    private Logger logger = Logger.getLogger(UrlStreamConnection.class);
 
     @Override
     public Object getPageData(String url) throws Exception{

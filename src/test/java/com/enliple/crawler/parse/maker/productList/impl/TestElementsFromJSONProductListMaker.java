@@ -16,10 +16,10 @@ import java.net.URL;
 /**
  * Created by MinKi Hwang on 2017-08-10.
  */
-public class ElementsFromJSONProductListMakerTest {
+public class TestElementsFromJSONProductListMaker {
 
     @Test
-    public void getProductListTest(){
+    public void testGetProductList(){
         //ProductListMaker maker = new ElementsFromJSONProductListMaker();
         ParsePattern parsePattern = new ParsePattern();
         parsePattern.setShopType("test");

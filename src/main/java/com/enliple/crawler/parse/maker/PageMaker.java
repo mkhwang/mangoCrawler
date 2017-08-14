@@ -9,7 +9,7 @@ import java.util.List;
 public class PageMaker {
     public static List<String> getPages(String url, String pagePattern){
         List<String> pages = new ArrayList<>();
-        String[] splitPagePattern = pagePattern.split("\\^\\^\\^");
+        String[] splitPagePattern = pagePattern.split("\\^");
         String pageParameter = splitPagePattern[0];
         int initValue = Integer.parseInt(splitPagePattern[1]);
         int increment = Integer.parseInt(splitPagePattern[2]);

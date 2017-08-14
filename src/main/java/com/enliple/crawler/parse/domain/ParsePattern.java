@@ -18,6 +18,7 @@ public class ParsePattern {
     private String urlFormat;
     private String pagePattern;
     private String soldOutMsg;
+    private String imgUrlFormat;
 
     public String getShopType() {
         return shopType;
@@ -131,4 +132,11 @@ public class ParsePattern {
         this.soldOutMsg = soldOutMsg;
     }
 
+    public String getImgUrlFormat() {
+        return imgUrlFormat;
+    }
+
+    public void setImgUrlFormat(String imgUrlFormat) {
+        this.imgUrlFormat = imgUrlFormat;
+    }
 }

@@ -4,8 +4,6 @@ import com.enliple.crawler.common.SessionFactory;
 import com.enliple.crawler.parse.dao.ParseDao;
 import com.enliple.crawler.parse.dao.impl.ParseDaoImpl;
 import com.enliple.crawler.parse.domain.ParsePattern;
-import com.enliple.crawler.parse.service.ParseService;
-import com.enliple.crawler.parse.service.impl.ParseServiceImpl;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,9 +11,9 @@ import org.junit.Test;
 /**
  * Created by MinKi Hwang on 2017-08-08.
  */
-public class PatternTest {
+public class TestPattern {
     @Test
-    public void connectionTest() throws Exception {
+    public void testConnection() throws Exception {
         System.out.println("Connection Test Start");
         try(SqlSession session = SessionFactory.getSession()){
             ParsePattern parsePattern;

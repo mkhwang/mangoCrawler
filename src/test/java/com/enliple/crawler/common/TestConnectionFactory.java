@@ -7,10 +7,10 @@ import org.junit.Assert;
 /**
  * Created by MinKi Hwang on 2017-08-04.
  */
-public class ConnectionFactoryTest {
+public class TestConnectionFactory {
 
     @Test
-    public void connectionTest() throws Exception {
+    public void testConnection() throws Exception {
         System.out.println("Connection Test Start");
         try(SqlSession session = SessionFactory.getSession()){
             String now = session.selectOne("test.connectionTest");

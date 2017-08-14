@@ -37,10 +37,10 @@ public class JSoupUtil {
 
     public static String getAttribute(Object data, String pattern){
         String result;
-        if(pattern.contains("^")){
+        if(pattern.contains("$")){
             try {
-                Elements temp = getElements(data, pattern.split("\\&")[0]);
-                result = temp.attr(pattern.split("\\&")[1]);
+                Elements temp = getElements(data, pattern.split("\\$")[0]);
+                result = temp.attr(pattern.split("\\$")[1]);
             } catch (Exception e) {
                 result = "";
             }

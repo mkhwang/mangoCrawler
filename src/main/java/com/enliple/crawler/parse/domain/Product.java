@@ -162,7 +162,7 @@ public class Product {
 
     public void setPrice(String price){
         try {
-            this.price = Integer.parseInt(price);
+            this.price = Integer.parseInt(price.replaceAll("[^0-9]", ""));
         } catch (NumberFormatException e) {
             this.price = 0;
         }
@@ -170,7 +170,7 @@ public class Product {
 
     public void setOrgPrice(String orgPrice){
         try {
-            this.orgPrice = Integer.parseInt(orgPrice);
+            this.orgPrice = Integer.parseInt(orgPrice.replaceAll("[^0-9]", ""));
         } catch (NumberFormatException e) {
             this.orgPrice = 0;
         }
@@ -203,12 +203,13 @@ public class Product {
 
     public String toString(){
         StringBuilder builder = new StringBuilder();
-        builder.append("title : ").append(this.getTitle()).append("\n");
-        builder.append("pcode : ").append(this.getpCode()).append("\t / ");
+        builder.append("title : ").append(this.getTitle()).append("\t");
         builder.append("orgprice : ").append(this.getOrgPrice()).append("\t / ");
-        builder.append("price : ").append(this.getPrice()).append("\t");
-        builder.append("dcRate : ").append(this.getDcRate()).append("\n");
-        builder.append("url : ").append(this.getUrl()).append("\n");
+        builder.append("price : ").append(this.getPrice()).append("\t / ");
+        builder.append("dcRate : ").append(this.getDcRate()).append("\t /");
+        builder.append("siteName : ").append(this.getSiteName()).append("\n /");
+        builder.append("url : ").append(this.getUrl()).append("\t / ");
+        builder.append("pcode : ").append(this.getpCode()).append("\n ");
         builder.append("imgurl : ").append(this.getImage1()).append("\t / ");
         builder.append("width : ").append(this.getWidth()).append(" / ");
         builder.append("height : ").append(this.getHeight()).append(" / ");

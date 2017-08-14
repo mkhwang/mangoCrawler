@@ -1,7 +1,7 @@
 package com.enliple.crawler.parse.connect;
 
 import com.enliple.crawler.parse.connect.impl.JSoupConnection;
-import com.enliple.crawler.parse.connect.impl.UrlStreamConnect;
+import com.enliple.crawler.parse.connect.impl.UrlStreamConnection;
 import com.enliple.crawler.parse.domain.ParsePattern;
 
 /**
@@ -10,8 +10,8 @@ import com.enliple.crawler.parse.domain.ParsePattern;
 public class PageConnectionFactory {
     public static PageConnection getPageConnection(ParsePattern parsePattern){
         PageConnection pageConnection;
-        if("cafe24".equals(parsePattern.getShopType()) || "makeShop".equals(parsePattern.getShopType()))
-            pageConnection = new UrlStreamConnect();
+        if("cafe24".equals(parsePattern.getShopType()) || "makeshop".equals(parsePattern.getShopType()))
+            pageConnection = new UrlStreamConnection();
         else
             pageConnection = new JSoupConnection();
 

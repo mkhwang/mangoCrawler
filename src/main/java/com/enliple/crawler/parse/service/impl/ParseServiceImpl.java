@@ -1,5 +1,6 @@
 package com.enliple.crawler.parse.service.impl;
 
+import com.enliple.crawler.common.DateUtil;
 import com.enliple.crawler.common.SessionFactory;
 import com.enliple.crawler.common.util.LoadProperties;
 import com.enliple.crawler.image.MangoImageService;
@@ -85,7 +86,8 @@ public class ParseServiceImpl implements ParseService{
         List<Object> productList;
         productList = productListMaker.getProductList(pageData, parsePattern.getProductListPattern());
 
-        System.out.println(parsingInfo.getShopName() + " / " + url + " [ " + productList.size() + " ]");
+        System.out.println(DateUtil.getCurrentTime("MM-dd HH:mm:ss:SSS")+" : "+  parsingInfo.getShopName() + " / " + url + " [ " + productList.size() + " ]");
+        logger.debug(parsingInfo.getShopName() + " / " + url + " [ " + productList.size() + " ]");
         for(Object product : productList){
             try {
                 this.parseProduct(parsingInfo, parsePattern, product);
@@ -105,7 +107,7 @@ public class ParseServiceImpl implements ParseService{
             this.executeTitleFilter(parsedProduct, parsePattern);
 
         this.refineProduct(parsingInfo, parsePattern, parsedProduct);
-        System.out.println(parsedProduct.toString());
+        //System.out.println(parsedProduct.toString());
         //logger.debug(parsedProduct.toString());
         this.separateNewOrUpdateProduct(parsedProduct);
     }
@@ -115,7 +117,7 @@ public class ParseServiceImpl implements ParseService{
             throw new NullPointerException();
         }
 
-        if(!"".equals(parsePattern.getUrlFormat())){
+        if(parsePattern.getUrlFormat() != null && !"".equals(parsePattern.getUrlFormat())){
             if(parsePattern.getUrlFormat().contains("{pCode}"))
                 product.setUrl(parsePattern.getUrlFormat().replace("{pCode}", product.getpCode()));
 
@@ -128,6 +130,11 @@ public class ParseServiceImpl implements ParseService{
             }
         }
 
+        if(parsePattern.getImgUrlFormat() != null && !"".equals(parsePattern.getImgUrlFormat())){
+            if(parsePattern.getImgUrlFormat().contains("{imgUrl}"))
+                product.setImage1(parsePattern.getImgUrlFormat().replace("{imgUrl}", product.getImage1()));
+        }
+
         /*
         if(!"".equals(parsingInfo.getSiteEtc()))
             product.setUrl(product.getUrl()+"&"+parsingInfo.getSiteEtc());
@@ -136,9 +143,7 @@ public class ParseServiceImpl implements ParseService{
         product.setScCode(parsingInfo.getScCode());
         product.setCategory(parsingInfo.getCategoryMatchCode());
         product.setSiteName(parsingInfo.getShopName());
-
         imageService.setImageInformation(product, parsingInfo);
-
         product.setDisplay("1");
     }
 

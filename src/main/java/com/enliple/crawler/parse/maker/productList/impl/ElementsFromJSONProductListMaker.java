@@ -17,9 +17,9 @@ public class ElementsFromJSONProductListMaker implements ProductListMaker {
     @Override
     public List<Object> getProductList(Object pageData, String productListPattern) throws NullPointerException {
         JSONObject jsonPage = (JSONObject) pageData;
-        String elementsFromJSONPattern = productListPattern.split("&")[0];
-        String[] jsonPatterns = elementsFromJSONPattern.split("^");
-        String productListFromElementsPattern = productListPattern.split("&")[1];
+        String elementsFromJSONPattern = productListPattern.split("\\$")[0];
+        String[] jsonPatterns = elementsFromJSONPattern.split("\\^");
+        String productListFromElementsPattern = productListPattern.split("\\$")[1];
         Document tempDocument = null;
         int patternSize = jsonPatterns.length;
 

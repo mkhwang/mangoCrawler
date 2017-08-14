@@ -24,7 +24,12 @@ public class JSONProductMaker implements ProductMaker {
             resultProduct.setUrl(jsonProduct.get(parsePattern.getUrlPattern()).toString());
             resultProduct.setImage1(jsonProduct.get(parsePattern.getImgUrlPattern()).toString());
             resultProduct.setPrice(jsonProduct.get(parsePattern.getPricePattern()).toString());
-            resultProduct.setOrgPrice(jsonProduct.get(parsePattern.getOriginPricePattern()).toString());
+
+            if(parsePattern.getSaleCheckPattern() != null
+                    && !"".equals(parsePattern.getSaleCheckPattern())
+                    && jsonProduct.containsKey(parsePattern.getSaleCheckPattern()))
+                resultProduct.setOrgPrice(jsonProduct.get(parsePattern.getOriginPricePattern()).toString());
+
             resultProduct.setpCode(jsonProduct.get(parsePattern.getProductCodePattern()).toString());
         } catch (Exception e) {
             e.printStackTrace();
