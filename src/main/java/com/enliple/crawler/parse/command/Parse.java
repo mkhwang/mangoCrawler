@@ -26,6 +26,7 @@ public class Parse {
         while (true){
             try{
                 Thread.sleep(LoadProperties.getJobSearchPeriod());
+
                 if(taskService.getCurrentWorkingTaskCount() < LoadProperties.getMaxWaitTask()){
                     parseTasks = taskService.selectTaskList();
 

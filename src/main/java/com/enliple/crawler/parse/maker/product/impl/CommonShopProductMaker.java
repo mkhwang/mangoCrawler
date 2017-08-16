@@ -8,9 +8,9 @@ import com.enliple.crawler.parse.maker.product.ProductMaker;
 import org.jsoup.nodes.Element;
 
 /**
- * Created by MinKi Hwang on 2017-08-03.
+ * Created by MinKi Hwang on 2017-08-02.
  */
-public class JSoupProductMaker implements ProductMaker {
+public class CommonShopProductMaker implements ProductMaker{
     @Override
     public Product getProduct(Object data, ParsePattern parsePattern) throws NullPointerException {
         Product resultProduct = null;
@@ -21,8 +21,20 @@ public class JSoupProductMaker implements ProductMaker {
                 resultProduct.setUrl(JSoupUtil.getAttribute(data, parsePattern.getUrlPattern()));
                 resultProduct.setImage1(JSoupUtil.getAttribute(data, parsePattern.getImgUrlPattern()));
                 resultProduct.setPrice(JSoupUtil.getElements(data, parsePattern.getPricePattern()).text());
-                resultProduct.setOrgPrice(JSoupUtil.getElements(data, parsePattern.getOriginPricePattern()).text());
+
+                if(parsePattern.getSaleCheckPattern() != null && !"".equals(parsePattern.getSaleCheckPattern())){
+                    try {
+                        String tempOriginalPrice = JSoupUtil.getElements(data, parsePattern.getSaleCheckPattern()).html();
+                        if(!"".equals(tempOriginalPrice))
+                            resultProduct.setOrgPrice(JSoupUtil.getElements(data, parsePattern.getOriginPricePattern()).text());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 resultProduct.setpCode(PcodeMaker.getPcodeFromUrl(resultProduct.getUrl(), parsePattern.getProductCodePattern()));
+
+                if (resultProduct.getOrgPrice() == 0 || "".equals(String.valueOf(resultProduct.getOrgPrice())))
+                    resultProduct.setOrgPrice(resultProduct.getPrice());
             }
         } catch (Exception e) {
             e.printStackTrace();

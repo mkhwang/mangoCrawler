@@ -18,6 +18,7 @@ import com.enliple.crawler.parse.maker.UrlMakerFactory;
 import com.enliple.crawler.parse.maker.product.ProductMaker;
 import com.enliple.crawler.parse.maker.productList.ProductListMaker;
 import com.enliple.crawler.parse.maker.url.UrlMaker;
+import com.enliple.crawler.parse.maker.url.impl.Cafe24UrlMaker;
 import com.enliple.crawler.parse.service.ParseService;
 import com.enliple.crawler.task.domain.ParseTask;
 import org.apache.ibatis.session.SqlSession;
@@ -144,7 +145,6 @@ public class ParseServiceImpl implements ParseService{
         product.setCategory(parsingInfo.getCategoryMatchCode());
         product.setSiteName(parsingInfo.getShopName());
         imageService.setImageInformation(product, parsingInfo);
-        product.setDisplay("1");
     }
 
     private void executeTitleFilter(Product product, ParsePattern parsePattern) throws NullPointerException{

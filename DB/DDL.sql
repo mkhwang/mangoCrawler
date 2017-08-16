@@ -107,3 +107,7 @@ create index title
 	on ms_goods (title)
 ;
 
+insert into ms_parsing_queue (sc_code, priority, state) VALUE('167b007a416fdcbf602d78a613c98c44', '0', '0');
+insert into ms_parsing_queue (sc_code, priority, state) VALUE('d09e6b1113af4fe611d73c965cdd6a0f', '1', '0');
+insert into ms_parsing_queue (sc_code, priority, state) VALUE('e4d5322e54248598f2e42a1fcd6af86d', '1', '0');
+insert into ms_parsing_queue (sc_code, priority, state) VALUE('22477f12d144bee29b18cb0571ec5589', '1', '0');

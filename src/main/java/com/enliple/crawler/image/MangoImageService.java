@@ -37,11 +37,12 @@ public class MangoImageService {
             else if("2".equals(parsingInfo.getImageTransform())){
                 renewImageService = new RenewImageService();
                 renewImageService.saveImage(product, "big", "2", parsingInfo.getImageDir(), product.getImage1());
-                //renewImageService.saveImage(product, "small", "2", parsingInfo.getImageDir(), product.getImage1());
+                renewImageService.saveImage(product, "small", "2", parsingInfo.getImageDir(), product.getImage1());
             } else {
                 product.setWidth(parsingInfo.getImageWidth());
                 product.setHeight(parsingInfo.getImageHeight());
             }
+            product.setDisplay("1");
         } catch (Exception e) {
             product.setWidth(parsingInfo.getImageWidth());
             product.setHeight(parsingInfo.getImageHeight());
@@ -196,7 +197,6 @@ public class MangoImageService {
             if (type == 1) {
                 downloadImg(dirBig, dirSmall, resizedImage, cropped);
                 product.setImage1(ip + path + path1 + name);
-                System.out.println(product.getImage1());
             }
 
             /*
@@ -244,7 +244,9 @@ public class MangoImageService {
             product.setWidth(image.getWidth());
             product.setHeight(image.getHeight());
         } catch (Exception e) {
-            e.printStackTrace();
+            product.setWidth(0);
+            product.setHeight(0);
+            product.setDisplay("0");
         }
     }
 

@@ -6,7 +6,7 @@ import com.enliple.crawler.parse.domain.Product;
 import com.enliple.crawler.parse.maker.product.ProductMaker;
 import com.enliple.crawler.parse.maker.productList.impl.Cafe24ProductListMaker;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
+import org.json.simple.*;
 
 /**
  * Created by MinKi Hwang on 2017-08-02.
@@ -17,22 +17,34 @@ public class Cafe24ProductMaker implements ProductMaker {
     @Override
     public Product getProduct(Object data, ParsePattern parsePattern) throws NullPointerException {
         Product resultProduct = null;
-        JSONObject jsonProduct;
+        JSONObject jsonProduct = null;
 
         try {
             jsonProduct = (JSONObject) data;
-            if (jsonProduct.get("soldout_icon").toString().contains("품절")
-                    || jsonProduct.get("soldout_icon").toString().toLowerCase().contains("update")
-                    || jsonProduct.get("product_price").toString().toLowerCase().contains("sold")
-                    || "".equals(jsonProduct.get("product_price").toString().replaceAll("[^0-9]", ""))
-                    ) {
-                throw new SoldOutException();
+            String soldOutMsg = (String)jsonProduct.get("soldout_icon");
+            if (soldOutMsg != null && !"".equals(soldOutMsg)){
+                if( soldOutMsg.contains("품절")
+                        || soldOutMsg.toLowerCase().contains("update")
+                        || soldOutMsg.toLowerCase().contains("sold")
+                        || "".equals(soldOutMsg.replaceAll("[^0-9]", ""))
+                        ){
+                    throw new SoldOutException();
+                }
             }
             resultProduct = new Product();
             resultProduct.setTitle(jsonProduct.get("product_name").toString());
             resultProduct.setpCode(jsonProduct.get("product_no").toString());
-            resultProduct.setImage1("http:"+jsonProduct.get(parsePattern.getImgUrlPattern()).toString());
             resultProduct.setUrl("/product/detail.html?product_no=" + resultProduct.getpCode());
+
+            if(parsePattern.getImgUrlPattern() == null || "".equals(parsePattern.getImgUrlPattern())){
+                if(!jsonProduct.get("image_big").toString().contains("cafe24")){
+                    resultProduct.setImage1("http:"+jsonProduct.get("image_big"));
+                }else{
+                    resultProduct.setImage1("http:"+jsonProduct.get("image_medium"));
+                }
+            } else {
+                resultProduct.setImage1("http:"+jsonProduct.get(parsePattern.getImgUrlPattern()).toString());
+            }
 
             if ("product_sale_display".equals(parsePattern.getSaleCheckPattern())
                     ||
@@ -82,7 +94,7 @@ public class Cafe24ProductMaker implements ProductMaker {
             }
 
             if (resultProduct.getOrgPrice() == 0 || "".equals(String.valueOf(resultProduct.getOrgPrice())))
-                resultProduct.setOrgPrice(resultProduct.getpCode());
+                resultProduct.setOrgPrice(resultProduct.getPrice());
 
         } catch (SoldOutException e) {
 

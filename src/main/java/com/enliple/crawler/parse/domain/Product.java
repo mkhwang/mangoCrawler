@@ -1,5 +1,7 @@
 package com.enliple.crawler.parse.domain;
 
+import com.enliple.crawler.common.util.StringUtil;
+
 /**
  * Created by MinKi Hwang on 2017-08-01.
  */
@@ -69,6 +71,8 @@ public class Product {
     }
 
     public void setTitle(String title) {
+        title = StringUtil.removeTagByRegx(title, "span").trim();
+        title = title.replaceAll("<br>", "").replaceAll("amp;", "").replaceAll("\\,\\,", "");
         this.title = title;
     }
 

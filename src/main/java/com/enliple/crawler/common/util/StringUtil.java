@@ -2,6 +2,8 @@ package com.enliple.crawler.common.util;
 
 import java.io.*;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by mkhwang on 2017-06-28.
@@ -116,7 +118,6 @@ public class StringUtil {
         return sb.toString();
     }
 
-    /** null 체크. "　"는 키라키라 http://www.e-kirakira.co.kr/product/detail.html?product_no=1855 예외 **/
     public static boolean isNullEmpty(String... strs) {
         boolean hasValues = false;
         for (String str : strs) {
@@ -127,4 +128,13 @@ public class StringUtil {
         }
         return hasValues;
     }
+
+    /* 특정 텍스트에 정규식으로 해당 영역을 삭제 해줌. */
+    public static String removeTagByRegx(String data, String rex){
+        Pattern script = Pattern.compile("<"+rex+"[^>]*>.*</"+rex+"[^>]*>",Pattern.DOTALL);
+        Matcher mat = script.matcher(data);
+        data = mat.replaceAll("");
+        return data;
+    }
 }
+
