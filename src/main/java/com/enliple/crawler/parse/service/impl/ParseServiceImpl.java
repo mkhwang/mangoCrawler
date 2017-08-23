@@ -107,6 +107,13 @@ public class ParseServiceImpl implements ParseService{
         if(parsePattern.getFilterString() != null && !"".equals(parsePattern.getFilterString()))
             this.executeTitleFilter(parsedProduct, parsePattern);
 
+        if(parsedProduct.getPrice() <= 0 || String.valueOf(parsedProduct.getPrice()) == ""){
+            //logger.error(product.toString()+"\n"+parsedProduct.toString());
+            //System.err.println(product.toString()+"\n"+parsedProduct.toString());
+            throw new NullPointerException();
+        }
+
+
         this.refineProduct(parsingInfo, parsePattern, parsedProduct);
         //System.out.println(parsedProduct.toString());
         //logger.debug(parsedProduct.toString());
@@ -114,10 +121,6 @@ public class ParseServiceImpl implements ParseService{
     }
 
     private void refineProduct(ParsingInfo parsingInfo, ParsePattern parsePattern, Product product) throws NullPointerException{
-        if(product.getPrice() <= 0 || String.valueOf(product.getPrice()) == ""){
-            throw new NullPointerException();
-        }
-
         if(parsePattern.getUrlFormat() != null && !"".equals(parsePattern.getUrlFormat())){
             if(parsePattern.getUrlFormat().contains("{pCode}"))
                 product.setUrl(parsePattern.getUrlFormat().replace("{pCode}", product.getpCode()));

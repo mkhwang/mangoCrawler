@@ -2,6 +2,7 @@ package com.enliple.crawler.parse.maker;
 
 import com.enliple.crawler.parse.domain.ParsePattern;
 import com.enliple.crawler.parse.maker.product.ProductMaker;
+import com.enliple.crawler.parse.maker.product.impl.Cafe24GsonProductMaker;
 import com.enliple.crawler.parse.maker.product.impl.Cafe24ProductMaker;
 import com.enliple.crawler.parse.maker.product.impl.CommonShopProductMaker;
 
@@ -13,7 +14,8 @@ public class ProductMakerFactory {
         ProductMaker maker;
 
         if("cafe24".equals(parsePattern.getShopType()))
-            maker = new Cafe24ProductMaker();
+            maker = new Cafe24GsonProductMaker();
+            //maker = new Cafe24ProductMaker();
         else
             maker = new CommonShopProductMaker();
 

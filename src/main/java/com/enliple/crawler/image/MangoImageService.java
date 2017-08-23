@@ -36,8 +36,9 @@ public class MangoImageService {
                 this.setImageInformationFromUrl(product);
             else if("2".equals(parsingInfo.getImageTransform())){
                 renewImageService = new RenewImageService();
-                renewImageService.saveImage(product, "big", "2", parsingInfo.getImageDir(), product.getImage1());
-                renewImageService.saveImage(product, "small", "2", parsingInfo.getImageDir(), product.getImage1());
+                String imgUrl = product.getImage1();
+                renewImageService.saveImage(product, "big", "2", parsingInfo.getImageDir(), imgUrl);
+                renewImageService.saveImage(product, "small", "2", parsingInfo.getImageDir(), imgUrl);
             } else {
                 product.setWidth(parsingInfo.getImageWidth());
                 product.setHeight(parsingInfo.getImageHeight());
