@@ -5,6 +5,7 @@ import com.enliple.crawler.parse.maker.product.ProductMaker;
 import com.enliple.crawler.parse.maker.product.impl.Cafe24GsonProductMaker;
 import com.enliple.crawler.parse.maker.product.impl.Cafe24ProductMaker;
 import com.enliple.crawler.parse.maker.product.impl.CommonShopProductMaker;
+import com.enliple.crawler.parse.maker.product.impl.GodoGsonProductMaker;
 
 /**
  * Created by MinKi Hwang on 2017-08-03.
@@ -16,6 +17,8 @@ public class ProductMakerFactory {
         if("cafe24".equals(parsePattern.getShopType()))
             maker = new Cafe24GsonProductMaker();
             //maker = new Cafe24ProductMaker();
+        else if("godo".equals(parsePattern.getShopType()))
+            maker = new GodoGsonProductMaker();
         else
             maker = new CommonShopProductMaker();
 

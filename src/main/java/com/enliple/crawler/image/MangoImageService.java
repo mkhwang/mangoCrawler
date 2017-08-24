@@ -45,8 +45,15 @@ public class MangoImageService {
             }
             product.setDisplay("1");
         } catch (Exception e) {
-            product.setWidth(parsingInfo.getImageWidth());
-            product.setHeight(parsingInfo.getImageHeight());
+            if("".equals(parsingInfo.getImageWidth())){
+                product.setWidth(0);
+                product.setHeight(0);
+                product.setDisplay("0");
+            } else {
+                product.setWidth(parsingInfo.getImageWidth());
+                product.setHeight(parsingInfo.getImageHeight());
+                product.setDisplay("0");
+            }
         }
     }
 

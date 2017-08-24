@@ -2,6 +2,7 @@ package com.enliple.crawler.parse.connect.impl;
 
 import com.enliple.crawler.common.util.LoadProperties;
 import com.enliple.crawler.parse.connect.PageConnection;
+import com.enliple.crawler.parse.domain.ParsePattern;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 

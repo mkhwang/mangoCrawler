@@ -22,7 +22,7 @@ public class Cafe24ProductListMaker implements ProductListMaker{
     @Override
     @SuppressWarnings("unchecked")
     public List<Object> getProductList(Object pageData, String productListPattern) throws NullPointerException{
-        List<Object> productList = new ArrayList<>();;
+        List<Object> productList = new ArrayList<>();
         /*
         JSONParser jsonParser = new JSONParser();
         JSONObject page = new JSONObject();

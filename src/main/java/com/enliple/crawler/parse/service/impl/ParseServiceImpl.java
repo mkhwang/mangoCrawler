@@ -109,14 +109,18 @@ public class ParseServiceImpl implements ParseService{
 
         if(parsedProduct.getPrice() <= 0 || String.valueOf(parsedProduct.getPrice()) == ""){
             //logger.error(product.toString()+"\n"+parsedProduct.toString());
-            //System.err.println(product.toString()+"\n"+parsedProduct.toString());
+            //System.err.println("priceNull : "+product.toString()+"\n"+parsedProduct.toString());
             throw new NullPointerException();
         }
 
+        if("".equals(parsedProduct.getImage1()) || parsedProduct.getImage1() == null){
+            System.err.println("imgaeNull : "+product.toString()+"\n"+parsedProduct.toString());
+            throw new NullPointerException();
+        }
 
         this.refineProduct(parsingInfo, parsePattern, parsedProduct);
         //System.out.println(parsedProduct.toString());
-        //logger.debug(parsedProduct.toString());
+        logger.debug(parsedProduct.toString());
         this.separateNewOrUpdateProduct(parsedProduct);
     }
 

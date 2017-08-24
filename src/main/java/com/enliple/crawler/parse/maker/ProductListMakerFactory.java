@@ -14,6 +14,8 @@ public class ProductListMakerFactory {
             maker = new Cafe24ProductListMaker();
         else if("makeshop".equals(parsePattern.getShopType()))
             maker = new MakeShopProductListMaker();
+        else if("godo".equals(parsePattern.getShopType()))
+            maker = new GodoProductListMaker();
         else if(parsePattern.getProductListPattern().contains("$"))
             maker = new ElementsFromJSONProductListMaker();
         else if("json".equals(parsePattern.getShopType()))

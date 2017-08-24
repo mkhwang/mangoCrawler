@@ -55,55 +55,7 @@ public class Cafe24GsonProductMaker implements ProductMaker {
             }
             resultProduct.setImage1("http:"+imgUrl);
 
-            
-
-            if ("product_sale_display".equals(parsePattern.getSaleCheckPattern())
-                    ||
-                    ("".equals(parsePattern.getSaleCheckPattern())
-                            && "".equals(parsePattern.getPricePattern())
-                            && "".equals(parsePattern.getOriginPricePattern()))) {
-                if (cafe24GSONProduct.isProduct_sale_display()) {
-                    resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_price());
-                    resultProduct.setPrice(cafe24GSONProduct.getOrigin_prd_price_sale());
-                } else {
-                    resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
-                    resultProduct.setOrgPrice(resultProduct.getPrice());
-                }
-
-            } else if ("product_custom".equals(parsePattern.getSaleCheckPattern())) {
-                resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
-                if (!"".equals(cafe24GSONProduct.getProduct_custom()))
-                    resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_custom());
-
-            } else if ("origin_prd_price_sale".equals(parsePattern.getSaleCheckPattern())) {
-                resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_price());
-                if (!"".equals(cafe24GSONProduct.getOrigin_prd_price_sale()))
-                    resultProduct.setPrice(cafe24GSONProduct.getOrigin_prd_price_sale());
-                else
-                    resultProduct.setPrice(resultProduct.getOrgPrice());
-                
-            } else if ("disp_product_custom".equals(parsePattern.getSaleCheckPattern())) {
-                
-                int tempPrice = Integer.parseInt(cafe24GSONProduct.getDisp_product_custom().replaceAll("[^0-9]", ""));
-                resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
-                if (tempPrice > 0)
-                    resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_custom());
-
-            } else if ("summary_desc".equals(parsePattern.getSaleCheckPattern())) {
-                resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
-                if (!"".equals(cafe24GSONProduct.getSummary_desc()))
-                    resultProduct.setOrgPrice(cafe24GSONProduct.getSummary_desc());
-
-            } else if ("c_dc_price_apply".equals(parsePattern.getSaleCheckPattern())) {
-                resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_price());
-                if (!"".equals(cafe24GSONProduct.getC_dc_price_apply()))
-                    resultProduct.setPrice(cafe24GSONProduct.getC_dc_price_apply());
-                else
-                    resultProduct.setPrice(resultProduct.getOrgPrice());
-
-            } else {
-                resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
-            }
+            setPrice(resultProduct, parsePattern, cafe24GSONProduct);
 
             if (resultProduct.getOrgPrice() == 0 || "".equals(String.valueOf(resultProduct.getOrgPrice())))
                 resultProduct.setOrgPrice(resultProduct.getPrice());
@@ -118,5 +70,54 @@ public class Cafe24GsonProductMaker implements ProductMaker {
             throw new NullPointerException();
 
         return resultProduct;
+    }
+
+    private void setPrice(Product resultProduct, ParsePattern parsePattern, Cafe24GSONProduct cafe24GSONProduct){
+        if ("product_sale_display".equals(parsePattern.getSaleCheckPattern())
+                ||
+                ("".equals(parsePattern.getSaleCheckPattern())
+                        && "".equals(parsePattern.getPricePattern())
+                        && "".equals(parsePattern.getOriginPricePattern()))) {
+            if (cafe24GSONProduct.isProduct_sale_display()) {
+                resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_price());
+                resultProduct.setPrice(cafe24GSONProduct.getOrigin_prd_price_sale());
+            } else {
+                resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
+                resultProduct.setOrgPrice(resultProduct.getPrice());
+            }
+
+        } else if ("product_custom".equals(parsePattern.getSaleCheckPattern())) {
+            resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
+            if (!"".equals(cafe24GSONProduct.getProduct_custom()))
+                resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_custom());
+
+        } else if ("origin_prd_price_sale".equals(parsePattern.getSaleCheckPattern())) {
+            resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_price());
+            if (!"".equals(cafe24GSONProduct.getOrigin_prd_price_sale()))
+                resultProduct.setPrice(cafe24GSONProduct.getOrigin_prd_price_sale());
+            else
+                resultProduct.setPrice(resultProduct.getOrgPrice());
+
+        } else if ("disp_product_custom".equals(parsePattern.getSaleCheckPattern())) {
+
+            int tempPrice = Integer.parseInt(cafe24GSONProduct.getDisp_product_custom().replaceAll("[^0-9]", ""));
+            resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
+            if (tempPrice > 0)
+                resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_custom());
+
+        } else if ("summary_desc".equals(parsePattern.getSaleCheckPattern())) {
+            resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
+            if (!"".equals(cafe24GSONProduct.getSummary_desc()))
+                resultProduct.setOrgPrice(cafe24GSONProduct.getSummary_desc());
+
+        } else if ("c_dc_price_apply".equals(parsePattern.getSaleCheckPattern())) {
+            resultProduct.setOrgPrice(cafe24GSONProduct.getProduct_price());
+            if (!"".equals(cafe24GSONProduct.getC_dc_price_apply()))
+                resultProduct.setPrice(cafe24GSONProduct.getC_dc_price_apply());
+            else
+                resultProduct.setPrice(resultProduct.getOrgPrice());
+        } else {
+            resultProduct.setPrice(cafe24GSONProduct.getProduct_price());
+        }
     }
 }
