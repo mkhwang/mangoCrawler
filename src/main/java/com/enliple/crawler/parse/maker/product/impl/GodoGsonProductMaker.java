@@ -21,7 +21,7 @@ public class GodoGsonProductMaker implements ProductMaker {
         try{
             godoGSONProduct = (GodoGSONProduct) data;
 
-            if("".equals(godoGSONProduct.getCss_selector()) || godoGSONProduct.getCss_selector() == null)
+            if(isSoldOut(godoGSONProduct))
                 throw new SoldOutException();
 
             resultProduct = new Product();
@@ -70,5 +70,20 @@ public class GodoGsonProductMaker implements ProductMaker {
         }
 
         return  result;
+    }
+
+    private boolean isSoldOut(GodoGSONProduct godoGSONProduct){
+        boolean cssResult = false;
+        boolean optionResult = true;
+        if(godoGSONProduct.getCss_selector() != null && !"".equals(godoGSONProduct.getCss_selector()))
+            cssResult = true;
+
+        String[] options = godoGSONProduct.getOption_value().split(",");
+        for(String option : options){
+            if(!option.contains("품절"))
+                optionResult = false;
+        }
+
+        return cssResult || optionResult;
     }
 }

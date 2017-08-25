@@ -7,6 +7,7 @@ import com.enliple.crawler.parse.maker.url.UrlMaker;
 import com.enliple.crawler.parse.maker.url.impl.Cafe24UrlMaker;
 import com.enliple.crawler.parse.maker.url.impl.CommonUrlMaker;
 import com.enliple.crawler.parse.maker.url.impl.MakeShopUrlMaker;
+import com.enliple.crawler.parse.maker.url.impl.StoreFarmUrlMaker;
 
 /**
  * Created by MinKi Hwang on 2017-08-08.
@@ -19,6 +20,8 @@ public class UrlMakerFactory {
             maker = new Cafe24UrlMaker();
         else if("makeshop".equals(parsingInfo.getShopType()) || MakeShopParsingInfoUtil.isMakeShopPlatform(parsingInfo))
             maker = new MakeShopUrlMaker();
+        else if("storefarm".equals(parsingInfo.getShopType()))
+            maker = new StoreFarmUrlMaker();
         else
             maker = new CommonUrlMaker();
 

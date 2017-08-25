@@ -14,6 +14,7 @@ public class GodoGSONProduct {
     private String consumer;
     private String goods_price;
     private String css_selector;
+    private String option_value;
 
     public String getGoodsno() {
         return goodsno;
@@ -93,5 +94,13 @@ public class GodoGSONProduct {
 
     public void setCss_selector(String css_selector) {
         this.css_selector = css_selector;
+    }
+
+    public String getOption_value() {
+        return option_value;
+    }
+
+    public void setOption_value(String option_value) {
+        this.option_value = option_value;
     }
 }

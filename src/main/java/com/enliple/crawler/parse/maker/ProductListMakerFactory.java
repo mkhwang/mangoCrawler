@@ -10,18 +10,22 @@ import com.enliple.crawler.parse.maker.productList.impl.*;
 public class ProductListMakerFactory {
     public static ProductListMaker getProductListMaker(ParsePattern parsePattern){
         ProductListMaker maker;
+
         if("cafe24".equals(parsePattern.getShopType()))
             maker = new Cafe24ProductListMaker();
         else if("makeshop".equals(parsePattern.getShopType()))
             maker = new MakeShopProductListMaker();
         else if("godo".equals(parsePattern.getShopType()))
             maker = new GodoProductListMaker();
+        else if("storefarm".equals(parsePattern.getShopType()))
+            maker = new StoreFarmProductListMaker();
         else if(parsePattern.getProductListPattern().contains("$"))
             maker = new ElementsFromJSONProductListMaker();
         else if("json".equals(parsePattern.getShopType()))
             maker = new JSONProductListMaker();
         else
             maker = new CommonProductListMaker();
+
         return maker;
     }
 }

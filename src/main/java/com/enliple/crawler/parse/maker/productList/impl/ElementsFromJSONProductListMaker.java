@@ -38,11 +38,7 @@ public class ElementsFromJSONProductListMaker implements ProductListMaker {
 
         List<Object> productList = new ArrayList<>();
         productList.addAll(tempProductList);
-        /*
-        for(Element tempProduct : tempProductList){
-            productList.add(tempProduct);
-        }
-         */
+
         return productList;
     }
 }

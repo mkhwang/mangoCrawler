@@ -16,7 +16,6 @@ public class ProductMakerFactory {
 
         if("cafe24".equals(parsePattern.getShopType()))
             maker = new Cafe24GsonProductMaker();
-            //maker = new Cafe24ProductMaker();
         else if("godo".equals(parsePattern.getShopType()))
             maker = new GodoGsonProductMaker();
         else
